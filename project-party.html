@@ -1,364 +1,590 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>基于GLM-4的党建知识智能问答系统 - 项目介绍</title>
-    <style>
-        :root {
-            --red: #C91F37;
-            --text: #333;
-            --bg: #f8f8f8;
-            --card-bg: #fff;
-            --border: #e0e0e0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="基于GLM-4的党建知识智能问答系统 — LoRA微调 + RAG检索增强 + Web全栈毕业设计项目详情">
+<title>GLM-4 党建智能问答系统 · 项目详情</title>
+<style>
+/* ───── Reset & Variables ───── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+:root{
+  --c-bg:#f6f3ee;
+  --c-surface:#ffffff;
+  --c-text:#1a1a2e;
+  --c-text-secondary:#6b7280;
+  --c-accent:#c91f37;
+  --c-accent-hover:#a0152a;
+  --c-accent-soft:rgba(201,31,55,0.08);
+  --c-border:rgba(0,0,0,0.08);
+  --c-shadow:rgba(0,0,0,0.06);
+  --c-code-bg:#f4f2ed;
+  --c-metric-bg:#faf8f4;
+  --c-tag-bg:#f0ede8;
+  --c-success:#059669;
+  --c-warning:#d97706;
+  --radius:12px;
+  --radius-sm:8px;
+  --font-body:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Microsoft YaHei",sans-serif;
+  --font-display:"Georgia","Noto Serif SC","STSong",serif;
+}
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
-            color: var(--text);
-            background: var(--bg);
-            line-height: 1.8;
-        }
+[data-theme="dark"]{
+  --c-bg:#0a0a0f;
+  --c-surface:#14141f;
+  --c-text:#e8e6e3;
+  --c-text-secondary:#9ca3af;
+  --c-accent:#ef4444;
+  --c-accent-hover:#f87171;
+  --c-accent-soft:rgba(239,68,68,0.12);
+  --c-border:rgba(255,255,255,0.06);
+  --c-shadow:rgba(0,0,0,0.4);
+  --c-code-bg:#1a1a28;
+  --c-metric-bg:#1a1a28;
+  --c-tag-bg:#1f1f30;
+  --c-success:#34d399;
+  --c-warning:#fbbf24;
+}
 
-        .container {
-            max-width: 860px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+/* ───── Base ───── */
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-body);
+  background:var(--c-bg);
+  color:var(--c-text);
+  line-height:1.7;
+  transition:background .35s,color .35s;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--c-accent);color:#fff}
 
-        /* 顶部导航 */
-        .top-bar {
-            background: var(--red);
-            padding: 12px 20px;
-        }
-        .top-bar a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 14px;
-            opacity: 0.9;
-        }
-        .top-bar a:hover {
-            opacity: 1;
-        }
+/* ───── Scrollbar ───── */
+body::-webkit-scrollbar{width:6px}
+body::-webkit-scrollbar-track{background:transparent}
+body::-webkit-scrollbar-thumb{background:var(--c-border);border-radius:3px}
 
-        /* 标题区 */
-        .header {
-            background: linear-gradient(135deg, #C91F37 0%, #a0152a 100%);
-            color: #fff;
-            padding: 60px 20px;
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .header h1 {
-            font-size: 2em;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-        .header p {
-            font-size: 1em;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+/* ─── Grain overlay ─── */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9999;
+  pointer-events:none;opacity:.03;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:256px 256px;
+}
 
-        /* 内容区 */
-        .section {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 30px;
-            margin-bottom: 24px;
-        }
-        .section h2 {
-            font-size: 1.3em;
-            color: var(--red);
-            margin-bottom: 16px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--red);
-        }
-        .section h3 {
-            font-size: 1.05em;
-            margin: 20px 0 10px;
-            color: #555;
-        }
-        .section p {
-            margin-bottom: 12px;
-        }
-        .section ul, .section ol {
-            margin-left: 20px;
-            margin-bottom: 12px;
-        }
-        .section li {
-            margin-bottom: 6px;
-        }
+/* ───── Top Bar ───── */
+.top-bar{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;height:52px;
+  background:rgba(10,10,15,.75);backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--c-border);
+}
+.top-bar a{
+  color:var(--c-text);text-decoration:none;font-size:14px;
+  display:inline-flex;align-items:center;gap:6px;
+  opacity:.7;transition:opacity .2s;
+}
+.top-bar a:hover{opacity:1}
+.theme-btn{
+  background:transparent;border:1px solid var(--c-border);
+  border-radius:6px;padding:3px 10px;cursor:pointer;
+  font-size:15px;line-height:1.6;color:var(--c-text);
+  transition:border-color .3s;
+}
 
-        /* 架构图文本版 */
-        .arch-block {
-            background: #1e1e1e;
-            color: #d4d4d4;
-            font-family: "Courier New", Courier, monospace;
-            font-size: 13px;
-            padding: 20px;
-            border-radius: 6px;
-            overflow-x: auto;
-            line-height: 1.6;
-            white-space: pre;
-        }
+/* ───── Hero ───── */
+.hero{
+  min-height:70vh;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;text-align:center;
+  padding:80px 24px 60px;position:relative;overflow:hidden;
+}
+.hero-glow{
+  position:absolute;top:-30%;left:50%;translate:-50% 0;
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,var(--c-accent-soft) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-label{
+  font-size:13px;font-weight:600;letter-spacing:3px;
+  text-transform:uppercase;color:var(--c-accent);
+  margin-bottom:24px;position:relative;
+}
+.hero h1{
+  font-family:var(--font-display);font-size:clamp(2rem,5vw,3.4rem);
+  font-weight:900;line-height:1.2;max-width:700px;
+  margin-bottom:16px;position:relative;
+}
+.hero p{
+  font-size:clamp(1rem,1.8vw,1.15rem);color:var(--c-text-secondary);
+  max-width:520px;margin-bottom:32px;position:relative;
+}
+.hero-badges{
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:center;
+  margin-bottom:40px;position:relative;
+}
+.hero-badge{
+  display:inline-block;padding:5px 14px;border-radius:20px;
+  font-size:13px;font-weight:500;letter-spacing:.3px;
+  background:var(--c-tag-bg);color:var(--c-text-secondary);
+  transition:all .2s;
+}
+.hero-badge:hover{
+  background:var(--c-accent);color:#fff;transform:translateY(-1px);
+}
 
-        /* 表格 */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 16px 0;
-            font-size: 14px;
-        }
-        th, td {
-            border: 1px solid var(--border);
-            padding: 10px 12px;
-            text-align: left;
-        }
-        th {
-            background: #f5f0f0;
-            font-weight: 600;
-        }
+/* ───── Container ───── */
+.page{max-width:840px;margin:0 auto;padding:0 24px 80px}
 
-        /* 不足区块 */
-        .limitations {
-            background: #fff9f0;
-            border-left: 4px solid #e6a817;
-        }
+/* ───── TL;DR for beginners ───── */
+.tldr-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+  margin-bottom:48px;
+}
+.tldr-card{
+  background:var(--c-surface);border:1px solid var(--c-border);
+  border-radius:var(--radius);padding:24px;
+  transition:transform .25s cubic-bezier(.22,1,.36,1),box-shadow .25s;
+}
+.tldr-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px var(--c-shadow)}
+.tldr-card .num{
+  font-size:28px;font-weight:800;color:var(--c-accent);
+  font-family:var(--font-display);line-height:1;margin-bottom:10px;
+}
+.tldr-card h3{font-size:15px;margin-bottom:6px}
+.tldr-card p{font-size:14px;color:var(--c-text-secondary);line-height:1.6}
 
-        /* 链接按钮 */
-        .btn {
-            display: inline-block;
-            background: var(--red);
-            color: #fff;
-            padding: 10px 24px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 14px;
-            margin-right: 10px;
-        }
-        .btn:hover {
-            background: #a0152a;
-        }
+/* ───── Section ───── */
+section{margin-bottom:56px}
+.section-header{
+  display:flex;align-items:center;gap:12px;margin-bottom:24px;
+}
+.section-header .line{flex:1;height:1px;background:var(--c-border)}
+.section-header h2{
+  font-family:var(--font-display);font-size:20px;font-weight:700;
+  white-space:nowrap;letter-spacing:.5px;
+}
+.section-sub{font-size:14px;color:var(--c-text-secondary);margin-top:-16px;margin-bottom:24px}
 
-        /* 响应式 */
-        @media (max-width: 600px) {
-            .header h1 {
-                font-size: 1.4em;
-            }
-            .section {
-                padding: 20px;
-            }
-        }
-    </style>
+/* ───── Metrics Dashboard ───── */
+.metrics{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+  background:var(--c-surface);border:1px solid var(--c-border);
+  border-radius:var(--radius);padding:24px;margin-bottom:48px;
+}
+.metric{
+  text-align:center;padding:8px 4px;
+}
+.metric .val{
+  font-size:clamp(1.3rem,2.2vw,1.8rem);font-weight:800;
+  font-family:var(--font-display);
+  background:linear-gradient(135deg,var(--c-accent),var(--c-text));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;line-height:1.2;
+}
+.metric .lbl{font-size:12px;color:var(--c-text-secondary);margin-top:4px;letter-spacing:.3px}
+
+/* ───── Architecture Diagram ───── */
+.arch{background:var(--c-surface);border:1px solid var(--c-border);border-radius:var(--radius);padding:32px 24px}
+.arch-flow{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  flex-wrap:wrap;margin-bottom:16px;
+}
+.arch-node{
+  background:var(--c-code-bg);border:1px solid var(--c-border);
+  border-radius:var(--radius-sm);padding:12px 16px;
+  text-align:center;font-size:13px;font-weight:500;
+  min-width:90px;transition:all .25s;
+}
+.arch-node:hover{
+  border-color:var(--c-accent);background:var(--c-accent-soft);
+  transform:scale(1.03);
+}
+.arch-node .sub{font-size:11px;color:var(--c-text-secondary);font-weight:400;margin-top:2px}
+.arch-arrow{font-size:18px;color:var(--c-text-secondary);flex-shrink:0}
+.arch-branch{
+  display:flex;justify-content:center;gap:8px;flex-wrap:wrap;
+  margin-top:8px;padding-left:40%;
+}
+.arch-label{font-size:12px;color:var(--c-text-secondary);text-align:center;margin-bottom:8px;letter-spacing:1px}
+
+/* ───── Detail Cards ───── */
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.detail-card{
+  background:var(--c-surface);border:1px solid var(--c-border);
+  border-radius:var(--radius);padding:20px;cursor:default;
+  transition:border-color .25s,box-shadow .25s;
+}
+.detail-card:hover{border-color:var(--c-accent);box-shadow:0 4px 20px var(--c-shadow)}
+.detail-card h3{font-size:14px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.detail-card h3 .icon{color:var(--c-accent)}
+.detail-card ul{list-style:none;padding:0}
+.detail-card li{
+  font-size:13px;color:var(--c-text-secondary);padding:3px 0;
+  padding-left:12px;position:relative;line-height:1.6;
+}
+.detail-card li::before{
+  content:'';position:absolute;left:0;top:10px;
+  width:4px;height:4px;border-radius:50%;background:var(--c-accent);
+}
+
+/* ───── Training Visual ───── */
+.train-visual{
+  background:var(--c-surface);border:1px solid var(--c-border);
+  border-radius:var(--radius);padding:28px 24px;
+}
+.train-bars{display:flex;align-items:flex-end;gap:12px;justify-content:center;margin:24px 0 16px;height:140px}
+.train-bar-group{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;max-width:100px}
+.train-bar{
+  width:100%;border-radius:4px 4px 0 0;
+  background:linear-gradient(180deg,var(--c-accent),var(--c-accent-hover));
+  opacity:.85;transition:opacity .2s;min-height:4px;
+  position:relative;
+}
+.train-bar:hover{opacity:1}
+.train-bar .pct{
+  position:absolute;top:-20px;left:50%;translate:-50% 0;
+  font-size:11px;font-weight:600;color:var(--c-text);white-space:nowrap;
+}
+.train-step{font-size:12px;color:var(--c-text-secondary)}
+.train-note{
+  text-align:center;font-size:13px;color:var(--c-text-secondary);
+  padding:12px 16px;background:var(--c-metric-bg);
+  border-radius:var(--radius-sm);margin-top:8px;
+}
+.train-note strong{color:var(--c-accent)}
+
+/* ───── Table ───── */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{
+  border:1px solid var(--c-border);padding:10px 14px;text-align:left;
+  transition:border-color .3s;
+}
+th{background:var(--c-metric-bg);font-weight:600;font-size:13px}
+
+/* ───── Limitations ───── */
+.limits-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.limit-card{
+  border-radius:var(--radius-sm);padding:16px;
+  background:var(--c-surface);border:1px solid var(--c-border);
+  font-size:13px;line-height:1.6;
+}
+.limit-card strong{display:block;margin-bottom:4px;font-size:14px}
+.limit-card.resolved{border-left:3px solid var(--c-success)}
+.limit-card.pending{border-left:3px solid var(--c-warning)}
+
+/* ───── Footer Actions ───── */
+.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 28px;border-radius:var(--radius-sm);
+  font-size:14px;font-weight:500;text-decoration:none;
+  transition:all .25s;border:1px solid transparent;
+}
+.btn-primary{
+  background:var(--c-accent);color:#fff;border-color:var(--c-accent);
+}
+.btn-primary:hover{background:var(--c-accent-hover);transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,31,55,.25)}
+.btn-ghost{
+  background:transparent;color:var(--c-text);border-color:var(--c-border);
+}
+.btn-ghost:hover{background:var(--c-tag-bg);border-color:var(--c-accent)}
+
+/* ───── Responsive ───── */
+@media(max-width:700px){
+  .tldr-grid{grid-template-columns:1fr}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .detail-grid{grid-template-columns:1fr}
+  .limits-grid{grid-template-columns:1fr}
+  .arch-branch{padding-left:0}
+  .train-bars{height:100px}
+  .hero{min-height:60vh;padding:70px 20px 40px}
+}
+@media(max-width:480px){
+  .metrics{grid-template-columns:1fr 1fr;gap:8px;padding:16px}
+  .arch-flow{gap:4px}
+  .arch-node{padding:8px 10px;font-size:12px;min-width:70px}
+  .hero h1{font-size:1.6rem}
+}
+</style>
 </head>
 <body>
 
-    <div class="top-bar">
-        <a href="index.html">← 返回聊天</a>
+<!-- █ Top Bar -->
+<div class="top-bar">
+  <a href="index.html">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m7-7-7 7 7 7"/></svg>
+    返回主页
+  </a>
+  <button class="theme-btn" id="themeToggle" aria-label="切换主题">🌙</button>
+</div>
+
+<!-- █ Hero -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-label">Graduation Project · 2025</div>
+  <h1>基于 GLM-4 的<br>党建知识智能问答系统</h1>
+  <p>将大语言模型微调与知识库检索增强相结合，构建面向党建领域的专业智能问答系统。</p>
+  <div class="hero-badges">
+    <span class="hero-badge">GLM-4-9B-Chat</span>
+    <span class="hero-badge">LoRA 微调</span>
+    <span class="hero-badge">RAG 检索增强</span>
+    <span class="hero-badge">Tornado 异步</span>
+    <span class="hero-badge">TF-IDF + FAISS</span>
+    <span class="hero-badge">LRU 缓存</span>
+  </div>
+</section>
+
+<div class="page">
+
+<!-- █ TL;DR — 给小白看 -->
+<section>
+  <div class="section-header">
+    <h2>一句话说清楚</h2>
+    <span class="line"></span>
+  </div>
+  <div class="tldr-grid">
+    <div class="tldr-card">
+      <div class="num">01</div>
+      <h3>给 AI 喂了党建知识</h3>
+      <p>把党章党规、政策文件等文档整理成知识库，AI 回答问题时先查资料再回答，不瞎编。</p>
+    </div>
+    <div class="tldr-card">
+      <div class="num">02</div>
+      <h3>让 AI 学会说"党言党语"</h3>
+      <p>用 LoRA 微调技术给模型做专项训练，让它掌握党建领域的专业表述风格和术语。</p>
+    </div>
+    <div class="tldr-card">
+      <div class="num">03</div>
+      <h3>做成了完整可用的产品</h3>
+      <p>不是 demo，有用户登录、多轮对话、知识库管理、会话历史，前后端全跑通。</p>
+    </div>
+  </div>
+</section>
+
+<!-- █ 核心数据 -->
+<section>
+  <div class="section-header">
+    <h2>核心指标</h2>
+    <span class="line"></span>
+  </div>
+  <div class="metrics">
+    <div class="metric"><div class="val">9B</div><div class="lbl">基座模型参数</div></div>
+    <div class="metric"><div class="val">0.11%</div><div class="lbl">LoRA 训练参比例</div></div>
+    <div class="metric"><div class="val">&lt;0.2s</div><div class="lbl">缓存命中响应</div></div>
+    <div class="metric"><div class="val">3 级</div><div class="lbl">权限体系</div></div>
+  </div>
+</section>
+
+<!-- █ 系统架构 -->
+<section>
+  <div class="section-header">
+    <h2>系统架构</h2>
+    <span class="line"></span>
+  </div>
+  <div class="arch">
+    <div class="arch-flow">
+      <div class="arch-node">用户浏览器<br><span class="sub">HTML/JS 前端</span></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node">Tornado Server<br><span class="sub">认证 · 路由 · 异常</span></div>
+      <span class="arch-arrow">→</span>
+      <div class="arch-node">RAG Engine<br><span class="sub">会话 · 提示词 · 缓存</span></div>
+    </div>
+    <div class="arch-label">↓ 下游模块</div>
+    <div class="arch-branch">
+      <div class="arch-node">知识库检索<br><span class="sub">TF-IDF · 文档解析</span></div>
+      <div class="arch-node">模型推理<br><span class="sub">GLM-4 + LoRA</span></div>
+      <div class="arch-node">LRU 缓存<br><span class="sub">检索 1000 / 回答 500</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- █ 核心模块 -->
+<section>
+  <div class="section-header">
+    <h2>技术实现细节</h2>
+    <span class="line"></span>
+  </div>
+  <p class="section-sub">面向技术读者，每个模块的关键设计决策</p>
+  <div class="detail-grid">
+
+    <div class="detail-card">
+      <h3><span class="icon">▷</span> LoRA 微调</h3>
+      <ul>
+        <li>基座：GLM-4-9B-Chat，秩 r=16</li>
+        <li>仅训练 0.11% 参数（~1081万）</li>
+        <li>800 步，有效 batch=8，lr=5e-5</li>
+        <li>Warmup + cosine 衰减 + 梯度检查点</li>
+        <li>最佳 checkpoint-600（ROUGE-1=4.42）</li>
+      </ul>
     </div>
 
-    <div class="header">
-        <h1>基于GLM-4的党建知识智能问答系统</h1>
-        <p>毕业设计项目 · 模型微调 + 知识库检索增强 + Web全栈实现</p>
+    <div class="detail-card">
+      <h3><span class="icon">▷</span> RAG 知识库检索</h3>
+      <ul>
+        <li>支持 PDF / DOCX / TXT 解析</li>
+        <li>段落优先切分，512 字符递归 + 50 重叠</li>
+        <li>TfidfVectorizer 构建词项-文档矩阵</li>
+        <li>点积相似度，Top-K（默认 K=3）</li>
+        <li>FAISS 向量检索逻辑已预留</li>
+      </ul>
     </div>
 
-    <div class="container">
-
-        <!-- 项目概述 -->
-        <div class="section">
-            <h2>项目概述</h2>
-            <p>本项目设计并实现了一个面向党建领域的智能问答系统。核心思路是采用<strong>模型微调 + 知识库检索增强（RAG）</strong>双重机制：通过LoRA微调让GLM-4-9B-Chat掌握党建专业术语和规范表述风格，通过知识库检索为模型提供最新政策文件原文作为回答依据，两者互补，兼顾专业性与时效性。</p>
-            <p>系统采用前后端分离架构，后端基于Tornado异步框架，前端为原生HTML/CSS/JavaScript实现，包含用户认证、多轮对话、知识库管理、会话管理和缓存优化等完整功能模块。</p>
-        </div>
-
-        <!-- 项目组成 -->
-        <div class="section">
-            <h2>项目组成</h2>
-            <table>
-                <tr>
-                    <th>子项目</th>
-                    <th>说明</th>
-                </tr>
-                <tr>
-                    <td><code>demo/</code></td>
-                    <td>Tornado后端服务，包含RAG引擎、知识库检索、LRU缓存、用户认证、RESTful API</td>
-                </tr>
-                <tr>
-                    <td><code>chatbot_html-master/</code></td>
-                    <td>前端界面，聊天页、登录页、知识库管理后台，党建红色主题风格</td>
-                </tr>
-                <tr>
-                    <td><code>archive1/finetune_demo/</code></td>
-                    <td>模型微调管线，数据集构建、LoRA训练脚本、评估代码、配置文件</td>
-                </tr>
-            </table>
-        </div>
-
-        <!-- 架构 -->
-        <div class="section">
-            <h2>系统架构</h2>
-            <div class="arch-block">
-                用户浏览器
-                  │
-                  │  HTTP POST (JSON)
-                  │
-            ┌─────▼──────────────────────┐
-            │   Tornado Web Server       │
-            │   ├─ 认证中间件 (Token)     │
-            │   ├─ 路由分发              │
-            │   └─ 异常处理              │
-            └─────┬──────────────────────┘
-                  │
-            ┌─────▼──────────────────────┐
-            │   RAG 引擎 (Chat Engine)   │
-            │   ├─ 会话管理 (session_id) │
-            │   ├─ 提示词拼接            │
-            │   └─ 缓存查询/写入         │
-            └──┬────────────┬───────────┘
-               │            │
-      ┌────────▼───┐  ┌────▼───────────┐
-      │ 知识库检索  │  │ 模型推理       │
-      │ TF-IDF     │  │ GLM-4-9B-Chat  │
-      │ 文档解析   │  │ + LoRA Adapter │
-      │ 分块索引   │  │ FP16 / KV Cache│
-      └────────────┘  └────────────────┘
-            </div>
-        </div>
-
-        <!-- 核心模块 -->
-        <div class="section">
-            <h2>核心模块实现</h2>
-
-            <h3>1. 模型微调（LoRA）</h3>
-            <ul>
-                <li>基座模型：GLM-4-9B-Chat</li>
-                <li>微调方法：LoRA，秩 r=16，仅训练 0.11% 参数（约1081万 / 94亿）</li>
-                <li>训练数据：数百条党建领域对话样本，覆盖党章党规、党史、政策解读、党务工作</li>
-                <li>数据格式：system/user/assistant 角色化多轮对话，system 设为"党建知识专家"</li>
-                <li>训练配置：800步，有效批次8，学习率5e-5，warmup+cosine衰减，梯度检查点+梯度累积</li>
-                <li>评估方式：Jieba分词后的ROUGE-1/2/L和BLEU-4自动评估 + 人工定性对比</li>
-                <li>最终模型：checkpoint-600（验证集ROUGE-1=4.42, ROUGE-L=1.34）</li>
-            </ul>
-
-            <h3>2. 知识库检索</h3>
-            <ul>
-                <li>支持格式：PDF、Word (DOCX)、TXT</li>
-                <li>文档解析：PyPDFLoader + python-docx + 直接读取</li>
-                <li>分块策略：段落优先切分，超长段落按512字符递归切分，相邻块重叠50字符</li>
-                <li>检索算法：scikit-learn TfidfVectorizer 构建词项-文档权重矩阵</li>
-                <li>相似度计算：查询向量与文档向量的点积，返Top-K（默认K=3）</li>
-                <li>索引更新：管理员触发全量重载（重新解析所有文档并重建索引）</li>
-                <li><strong>架构预留</strong>：代码中已实现FAISS向量检索逻辑，换用带完整编译链的环境可直接启用</li>
-            </ul>
-
-            <h3>3. 缓存系统</h3>
-            <ul>
-                <li>两个独立LRU缓存：检索缓存（容量1000）+ 回答缓存（容量500）</li>
-                <li>实现：OrderedDict + MD5哈希键 + TTL过期（默认3600秒）</li>
-                <li>后台定时清理过期条目，知识库更新时主动清空全量缓存</li>
-                <li>效果：缓存命中后响应时间从6-10秒降至0.2秒以内</li>
-            </ul>
-
-            <h3>4. 会话管理</h3>
-            <ul>
-                <li>以session_id为键在内存中维护对话状态，与用户认证解耦</li>
-                <li>支持游客模式（guest_前缀），登录用户以用户名为session_id</li>
-                <li>多轮对话：保留最近10轮历史，按"系统消息→历史→当前问题"拼接</li>
-                <li>TTL=3600秒，后台每10分钟清理过期会话</li>
-            </ul>
-
-            <h3>5. Web服务与前端</h3>
-            <ul>
-                <li>后端：Tornado异步框架，监听6006端口，提供RESTful API</li>
-                <li>认证：UUID Token + SHA256密码哈希，游客/普通用户/管理员三级权限</li>
-                <li>前端：三个页面（聊天、登录、知识库管理），党建红色主题，响应式布局</li>
-                <li>功能：多轮对话、会话历史查看、导出DOC、流式输出（SSE）</li>
-                <li>Mock模式：无需GPU即可跑通前后端联调，返回预设模拟回答</li>
-            </ul>
-        </div>
-
-        <!-- 微调训练过程 -->
-        <div class="section">
-            <h2>微调训练过程</h2>
-            <table>
-                <tr>
-                    <th>训练步数</th>
-                    <th>训练Loss</th>
-                    <th>验证ROUGE-1</th>
-                    <th>验证ROUGE-L</th>
-                </tr>
-                <tr><td>200</td><td>0.191</td><td>2.97</td><td>0.63</td></tr>
-                <tr><td>400</td><td>0.0085</td><td>4.39</td><td>1.32</td></tr>
-                <tr><td>600</td><td>0.0035</td><td>4.42</td><td>1.34</td></tr>
-                <tr><td>800</td><td>0.0033</td><td>0.078</td><td>0.022</td></tr>
-            </table>
-            <p style="font-size: 13px; color: #888;">训练观察到典型的小样本过拟合现象：验证集指标在第600步达到峰值后大幅下降，训练Loss在后期趋近于零，说明模型开始记忆训练样本。最终选取checkpoint-600作为最优模型。</p>
-        </div>
-
-        <!-- API接口 -->
-        <div class="section">
-            <h2>API接口</h2>
-            <table>
-                <tr><th>接口</th><th>方法</th><th>功能</th><th>权限</th></tr>
-                <tr><td>/api/login</td><td>POST</td><td>用户登录</td><td>公开</td></tr>
-                <tr><td>/api/logout</td><td>POST</td><td>用户登出</td><td>已登录</td></tr>
-                <tr><td>/api/chatbot</td><td>POST</td><td>智能问答</td><td>已登录/游客</td></tr>
-                <tr><td>/api/session/history</td><td>GET</td><td>获取会话历史</td><td>已登录/游客</td></tr>
-                <tr><td>/api/session/clear</td><td>GET</td><td>清空会话</td><td>已登录/游客</td></tr>
-                <tr><td>/api/kb/files</td><td>GET</td><td>知识库文件列表</td><td>管理员</td></tr>
-                <tr><td>/api/kb/upload</td><td>POST</td><td>上传文件</td><td>管理员</td></tr>
-                <tr><td>/api/kb/reload</td><td>POST</td><td>重载索引</td><td>管理员</td></tr>
-            </table>
-        </div>
-
-        <!-- 已知局限 -->
-        <div class="section limitations">
-            <h2>已知局限与改进方向</h2>
-            <ol>
-                <li><strong>训练数据规模有限</strong>：数百条样本训练800步（约22个epoch）导致过拟合，验证集指标在600步后骤降。后续需扩充数据、引入早停机制。</li>
-                <li><strong>FAISS未成功部署</strong>：因运行环境缺少编译依赖，当前线上使用TF-IDF关键词检索。代码中已实现FAISS检索逻辑，换环境可启用。</li>
-                <li><strong>TF-IDF语义理解局限</strong>：基于词面匹配，对同义词和复杂长查询效果有限，后续可升级为Embedding稠密向量检索（如BGE + FAISS）。</li>
-                <li><strong>自动评估指标不理想</strong>：ROUGE/BLEU在党建领域区分度低（BLEU-4最高仅0.0013），当前主要依赖人工定性评估，后续需引入BERTScore等语义相似度指标。</li>
-                <li><strong>知识库覆盖范围有限</strong>：当前仅包含基础党建文献，需持续扩充。</li>
-                <li><strong>容器化未完成</strong>：项目在AutoDL上直接运行，未编写Dockerfile。</li>
-                <li><strong>缓存细粒度失效未实现</strong>：当前采用全量清空策略，可优化为仅清除受影响条目。</li>
-            </ol>
-        </div>
-
-        <!-- 运行方式 -->
-        <div class="section">
-            <h2>运行方式</h2>
-            <div class="arch-block">
-# 1. 安装依赖
-pip install -r requirements.txt
-
-# 2. Mock模式启动（无需GPU，用于调试）
-python web_server.py --mock
-
-# 3. 真实模型模式（需GPU + GLM-4权重）
-python web_server.py
-
-# 4. 访问
-http://localhost:6006
-            </div>
-        </div>
-
-        <!-- 链接 -->
-        <div class="section" style="text-align: center;">
-            <a href="index.html" class="btn">在线体验</a>
-            <a href="https://github.com/Haze-mode/Party-Building-Q-A-Chatbot" class="btn" style="background: #333;">GitHub 源码</a>
-        </div>
-
+    <div class="detail-card">
+      <h3><span class="icon">▷</span> 缓存系统</h3>
+      <ul>
+        <li>双 LRU 缓存：检索 1000 + 回答 500</li>
+        <li>OrderedDict + MD5 哈希 + TTL 3600s</li>
+        <li>后台定时清理过期条目</li>
+        <li>缓存命中：6-10s → 0.2s</li>
+      </ul>
     </div>
 
+    <div class="detail-card">
+      <h3><span class="icon">▷</span> 会话 &amp; 认证</h3>
+      <ul>
+        <li>session_id 内存会话，与认证解耦</li>
+        <li>游客 / 普通用户 / 管理员 三级</li>
+        <li>UUID Token + SHA256 密码哈希</li>
+        <li>保留最近 10 轮，TTL=3600s</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- █ 训练过程可视化 -->
+<section>
+  <div class="section-header">
+    <h2>微调训练过程</h2>
+    <span class="line"></span>
+  </div>
+  <div class="train-visual">
+    <p style="font-size:14px;color:var(--c-text-secondary);margin-bottom:4px">验证集 ROUGE-1 随训练步数变化</p>
+    <div class="train-bars">
+      <div class="train-bar-group">
+        <div class="train-bar" style="height:67%"><span class="pct">2.97</span></div>
+        <span class="train-step">200</span>
+      </div>
+      <div class="train-bar-group">
+        <div class="train-bar" style="height:99%"><span class="pct">4.39</span></div>
+        <span class="train-step">400</span>
+      </div>
+      <div class="train-bar-group">
+        <div class="train-bar" style="height:100%;background:linear-gradient(180deg,#059669,#047857)"><span class="pct" style="color:var(--c-success)">4.42</span></div>
+        <span class="train-step" style="color:var(--c-success);font-weight:700">600 ★</span>
+      </div>
+      <div class="train-bar-group">
+        <div class="train-bar" style="height:2%"><span class="pct">0.078</span></div>
+        <span class="train-step">800</span>
+      </div>
+    </div>
+    <div class="train-note">
+      典型的<strong>小样本过拟合</strong>现象：验证指标在第 600 步达到峰值后骤降，训练 Loss 趋近于零。
+      最终选取 <strong>checkpoint-600</strong> 作为最优模型。
+    </div>
+  </div>
+</section>
+
+<!-- █ API 接口 -->
+<section>
+  <div class="section-header">
+    <h2>API 接口设计</h2>
+    <span class="line"></span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <tr><th>接口</th><th>方法</th><th>功能</th><th>权限</th></tr>
+      <tr><td><code>/api/login</code></td><td>POST</td><td>用户登录</td><td>公开</td></tr>
+      <tr><td><code>/api/logout</code></td><td>POST</td><td>用户登出</td><td>已登录</td></tr>
+      <tr><td><code>/api/chatbot</code></td><td>POST</td><td>智能问答（SSE 流式）</td><td>已登录 / 游客</td></tr>
+      <tr><td><code>/api/session/history</code></td><td>GET</td><td>获取会话历史</td><td>已登录 / 游客</td></tr>
+      <tr><td><code>/api/session/clear</code></td><td>GET</td><td>清空当前会话</td><td>已登录 / 游客</td></tr>
+      <tr><td><code>/api/kb/files</code></td><td>GET</td><td>知识库文件列表</td><td>管理员</td></tr>
+      <tr><td><code>/api/kb/upload</code></td><td>POST</td><td>上传文档</td><td>管理员</td></tr>
+      <tr><td><code>/api/kb/reload</code></td><td>POST</td><td>重建索引</td><td>管理员</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- █ 已知局限 -->
+<section>
+  <div class="section-header">
+    <h2>已知局限 &amp; 改进方向</h2>
+    <span class="line"></span>
+  </div>
+  <p class="section-sub">了解系统的边界比堆功能更能体现工程素养</p>
+  <div class="limits-grid">
+    <div class="limit-card pending">
+      <strong>⚠ 训练数据过少</strong>
+      数百条样本训练 22 个 epoch 导致过拟合。需扩充数据 + 引入早停。
+    </div>
+    <div class="limit-card pending">
+      <strong>⚠ FAISS 未实际部署</strong>
+      环境缺编译依赖，当前用 TF-IDF。代码已实现 FAISS 逻辑，换环境即启用。
+    </div>
+    <div class="limit-card pending">
+      <strong>⚠ 评估指标局限</strong>
+      ROUGE/BLEU 在党建领域区分度低，后续引入 BERTScore 等语义指标。
+    </div>
+    <div class="limit-card pending">
+      <strong>⚠ 容器化未完成</strong>
+      目前在 AutoDL 直接运行，未编写 Dockerfile，环境迁移依赖手动配置。
+    </div>
+    <div class="limit-card pending">
+      <strong>⚠ 缓存失效粒度粗</strong>
+      知识库更新时全量清空缓存，可优化为仅失效受影响条目。
+    </div>
+    <div class="limit-card pending">
+      <strong>⚠ 知识库覆盖面有限</strong>
+      当前仅包含基础党建文献，需持续扩充以提升实用性。
+    </div>
+  </div>
+</section>
+
+<!-- █ Footer -->
+<section>
+  <div class="actions">
+    <a href="https://github.com/Haze-mode/Party-Building-Q-A-Chatbot" target="_blank" class="btn btn-primary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      GitHub 源码
+    </a>
+    <a href="index.html" class="btn btn-ghost">← 返回主页</a>
+  </div>
+</section>
+
+</div><!-- /page -->
+
+<script>
+(function(){
+  const toggle=document.getElementById('themeToggle');
+  const stored=localStorage.getItem('theme');
+  const prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if(stored==='dark'||(!stored&&prefersDark)){
+    document.documentElement.setAttribute('data-theme','dark');
+    toggle.textContent='☀️';
+  }
+  toggle.addEventListener('click',()=>{
+    const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+    document.documentElement.setAttribute('data-theme',isDark?'light':'dark');
+    localStorage.setItem('theme',isDark?'light':'dark');
+    toggle.textContent=isDark?'🌙':'☀️';
+  });
+
+  // fade-in on scroll
+  const observer=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)'}
+    });
+  },{threshold:.08});
+  document.querySelectorAll('section,.metrics,.tldr-card,.detail-card,.train-visual,.limit-card,.arch').forEach(el=>{
+    el.style.opacity='0';el.style.transform='translateY(16px)';
+    el.style.transition='opacity .5s cubic-bezier(.22,1,.36,1),transform .5s cubic-bezier(.22,1,.36,1)';
+    observer.observe(el);
+  });
+})();
+</script>
 </body>
 </html>

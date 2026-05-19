@@ -1,170 +1,428 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liduo - 应用开发工程师</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f7f6;
-            color: #333;
-            line-height: 1.6;
-        }
-        header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 3rem 0;
-            text-align: center;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-        }
-        header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-top: 0.5rem;
-        }
-        .container {
-            max-width: 800px;
-            margin: -30px auto 40px;
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        h2 {
-            color: #764ba2;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 10px;
-            margin-top: 2rem;
-        }
-        .project-card {
-            background: #f8f9fa;
-            border-left: 4px solid #667eea;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 5px;
-            transition: transform 0.2s;
-        }
-        .project-card:hover {
-            transform: translateX(5px);
-        }
-        .project-card h3 {
-            margin-top: 0;
-            color: #333;
-        }
-        .project-tags {
-            margin: 10px 0;
-        }
-        .tag {
-            display: inline-block;
-            background: #e9ecef;
-            color: #495057;
-            padding: 2px 10px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            margin-right: 5px;
-        }
-        .btn {
-            display: inline-block;
-            background-color: #764ba2;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 10px;
-            margin-right: 10px;
-            transition: background 0.3s;
-        }
-        .btn:hover {
-            background-color: #5a387e;
-        }
-        .btn-outline {
-            background-color: transparent;
-            color: #764ba2;
-            border: 1px solid #764ba2;
-        }
-        .btn-outline:hover {
-            background-color: #764ba2;
-            color: white;
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #888;
-            font-size: 0.9rem;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Liduo · AI Inference Engineer — 模型推理优化 · 部署 · 全栈工程">
+<meta property="og:title" content="Liduo · AI Inference Engineer">
+<meta property="og:description" content="模型推理优化 · 部署工程化 · 全栈实现">
+<meta property="og:type" content="website">
+<title>Liduo · AI Inference Engineer</title>
+<style>
+/* ── Reset & Variables ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#f8f7f4;
+  --surface:#ffffff;
+  --text:#1a1a2e;
+  --text-dim:#787878;
+  --text-muted:#b0b0b0;
+  --accent:#0891b2;
+  --accent-hover:#0e7490;
+  --accent-soft:rgba(8,145,178,.08);
+  --border:rgba(0,0,0,.07);
+  --shadow:rgba(0,0,0,.05);
+  --tag-bg:#f0efea;
+  --tag-text:#555;
+  --card-bg:var(--surface);
+  --glow:rgba(8,145,178,.12);
+  --max-w:760px;
+  --radius:10px;
+  --font-body:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans SC","Microsoft YaHei",sans-serif;
+  --font-mono:"SF Mono","Fira Code","Cascadia Code",monospace;
+}
+
+[data-theme="dark"]{
+  --bg:#0b1120;
+  --surface:#111827;
+  --text:#e8edf5;
+  --text-dim:#8892a4;
+  --text-muted:#4b5563;
+  --accent:#22d3ee;
+  --accent-hover:#67e8f9;
+  --accent-soft:rgba(34,211,238,.08);
+  --border:rgba(255,255,255,.06);
+  --shadow:rgba(0,0,0,.4);
+  --tag-bg:#1e293b;
+  --tag-text:#94a3b8;
+  --card-bg:var(--surface);
+  --glow:rgba(34,211,238,.06);
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.65;
+  transition:background .35s,color .35s;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--accent);color:#fff}
+
+/* ── Scrollbar ── */
+body::-webkit-scrollbar{width:5px}
+body::-webkit-scrollbar-track{background:transparent}
+body::-webkit-scrollbar-thumb{background:var(--text-muted);border-radius:3px}
+
+/* ── Nav ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:54px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;
+  background:rgba(11,17,32,.65);backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+}
+[data-theme="light"] nav{background:rgba(248,247,244,.85);}
+
+nav .logo{font-weight:700;font-size:15px;color:var(--accent);letter-spacing:.3px}
+.nav-links{display:flex;align-items:center;gap:2px}
+.nav-links a{
+  color:var(--text-dim);text-decoration:none;
+  font-size:13px;padding:6px 13px;border-radius:6px;
+  transition:color .2s,background .2s;
+}
+.nav-links a:hover{color:var(--text);background:var(--accent-soft)}
+.nav-links a.active{color:var(--accent)}
+.theme-btn{
+  background:none;border:1px solid var(--border);
+  border-radius:6px;padding:3px 9px;cursor:pointer;
+  font-size:15px;line-height:1.6;color:var(--text);
+  margin-left:6px;transition:border-color .3s;
+}
+
+/* ── Hero ── */
+.hero{
+  min-height:85vh;display:flex;flex-direction:column;
+  justify-content:center;padding:0 24px;position:relative;overflow:hidden;
+}
+.hero-glow{
+  position:absolute;top:-20%;right:-10%;
+  width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,var(--glow) 0%,transparent 60%);
+  pointer-events:none;
+}
+.hero-content{max-width:var(--max-w);margin:0 auto;width:100%}
+.hero-tag{
+  display:inline-block;
+  font-family:var(--font-mono);font-size:13px;
+  color:var(--accent);margin-bottom:20px;letter-spacing:.5px;
+}
+.hero-tag::before{content:'// ';opacity:.4}
+.hero h1{
+  font-size:clamp(2.2rem,5.5vw,3.6rem);
+  font-weight:800;line-height:1.15;letter-spacing:-.02em;
+  margin-bottom:12px;
+}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p{
+  font-size:clamp(1rem,1.6vw,1.12rem);
+  color:var(--text-dim);max-width:480px;margin-bottom:28px;
+}
+.hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:36px}
+.hero-badges span{
+  padding:5px 14px;border-radius:20px;
+  font-size:13px;font-weight:500;letter-spacing:.2px;
+  background:var(--tag-bg);color:var(--tag-text);
+  transition:all .2s;
+}
+.hero-badges span:hover{background:var(--accent);color:#fff;transform:translateY(-2px)}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:11px 26px;border-radius:var(--radius);
+  font-size:14px;font-weight:500;text-decoration:none;
+  transition:all .25s;border:1px solid transparent;cursor:pointer;
+}
+.btn-primary{
+  background:var(--accent);color:#fff;border-color:var(--accent);
+}
+.btn-primary:hover{background:var(--accent-hover);transform:translateY(-2px)}
+.btn-ghost{
+  background:transparent;color:var(--text);border-color:var(--border);
+}
+.btn-ghost:hover{background:var(--accent-soft);border-color:var(--accent)}
+
+/* ── Page ── */
+.page{max-width:var(--max-w);margin:0 auto;padding:0 24px 80px}
+
+/* ── Section ── */
+section{margin-bottom:60px}
+.section-hdr{
+  display:flex;align-items:center;gap:12px;margin-bottom:24px;
+}
+.section-hdr .line{flex:1;height:1px;background:var(--border)}
+.section-hdr h2{
+  font-size:17px;font-weight:700;white-space:nowrap;letter-spacing:.3px;
+}
+.section-hdr .mono{
+  font-family:var(--font-mono);font-size:12px;color:var(--accent);
+  opacity:.5;font-weight:400;
+}
+
+/* ── About ── */
+.about-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:28px;line-height:1.8;
+}
+.about-card p{color:var(--text-dim);font-size:15px}
+.about-card p+p{margin-top:12px}
+.about-card strong{color:var(--text)}
+
+/* ── Project Card ── */
+.project-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:28px;
+  transition:transform .25s cubic-bezier(.22,1,.36,1),box-shadow .25s;
+}
+.project-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px var(--shadow)}
+.project-card h3{font-size:17px;margin-bottom:8px}
+.project-card .meta{
+  display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;font-size:13px
+}
+.project-card .meta span{
+  background:var(--tag-bg);color:var(--tag-text);
+  padding:3px 11px;border-radius:15px;
+}
+.project-card p{color:var(--text-dim);font-size:14px;line-height:1.7}
+
+/* ── Skills ── */
+.skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.skill-group{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px;
+}
+.skill-group h4{font-size:13px;color:var(--accent);margin-bottom:10px;font-family:var(--font-mono)}
+.skill-group .tags{display:flex;flex-wrap:wrap;gap:6px}
+.skill-group .tags span{
+  font-size:13px;padding:4px 12px;border-radius:6px;
+  background:var(--tag-bg);color:var(--tag-text);
+}
+
+/* ── Contact ── */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.contact-item{
+  display:flex;align-items:center;gap:12px;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:18px 20px;
+  text-decoration:none;color:var(--text);
+  transition:all .2s;
+}
+.contact-item:hover{border-color:var(--accent);background:var(--accent-soft);transform:translateY(-2px)}
+.contact-item .icon{font-size:20px;opacity:.7}
+.contact-item .lbl{font-size:14px;font-weight:500}
+.contact-item .sub{font-size:12px;color:var(--text-dim)}
+
+/* ── Footer ── */
+.footer{text-align:center;padding:40px 24px 32px;color:var(--text-muted);font-size:13px}
+
+/* ── Responsive ── */
+@media(max-width:640px){
+  .skills-grid,.contact-grid{grid-template-columns:1fr}
+  .hero{min-height:70vh}
+  .hero-badges span{font-size:12px;padding:4px 12px}
+  nav .nav-links a{font-size:12px;padding:5px 9px}
+}
+</style>
 </head>
 <body>
 
-    <header>
-        <h1>你好，我是 Liduo 👋</h1>
-        <p>应用开发工程师 · 注重工程实用性</p>
-    </header>
+<!-- █ Nav -->
+<nav>
+  <span class="logo">Liduo</span>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+    <button class="theme-btn" id="themeToggle" aria-label="Toggle theme">🌙</button>
+  </div>
+</nav>
 
-    <div class="container">
-        <section>
-            <h2>关于我</h2>
-            <p>
-                我是一名应用开发工程师，擅长从零构建完整的 Web 应用与 AI 集成系统。
-                关注如何将大语言模型（LLM）落地为实际可用的产品，同时不回避工程中的限制与取舍。
-                这里展示了我近期完成的两个代表性项目。
-            </p>
-        </section>
-
-        <section>
-            <h2>我的项目</h2>
-
-            <!-- 项目一：党建问答系统 -->
-            <div class="project-card">
-                <h3>基于 GLM-4 的党建智能问答系统</h3>
-                <p>毕业设计项目，集成模型微调（LoRA）与知识库检索增强（RAG），支持多轮对话与流式输出。</p>
-                <div class="project-tags">
-                    <span class="tag">Python</span>
-                    <span class="tag">Tornado</span>
-                    <span class="tag">GLM-4</span>
-                    <span class="tag">LoRA</span>
-                    <span class="tag">TF-IDF</span>
-                    <span class="tag">RAG</span>
-                </div>
-                <a href="project-party.html" class="btn btn-outline">查看项目详情 →</a>
-            </div>
-
-            <!-- 项目二：持续开发中 / 个人云笔记平台 -->
-            <div class="project-card">
-                <h3>更多项目开发中</h3>
-                <p>目前正在探索 Docker 化部署的全栈应用，使用 Django / Vue 等技术栈，后续会陆续更新到 GitHub。</p>
-                <div class="project-tags">
-                    <span class="tag">Django</span>
-                    <span class="tag">Vue3</span>
-                    <span class="tag">Docker</span>
-                    <span class="tag">PostgreSQL</span>
-                </div>
-                <a href="https://github.com/Haze-mode/" target="_blank" class="btn btn-outline">查看 GitHub 动态</a>
-            </div>
-        </section>
-
-        <section>
-            <h2>联系我</h2>
-            <p>如果你对我的项目感兴趣，或者想交流技术，欢迎通过以下方式联系我：</p>
-            <!-- 记得把 mailto 后面的邮箱替换成你自己的 -->
-            <a href="mailto:your-email@example.com" class="btn">发送邮件</a>
-            <a href="https://github.com/Haze-mode/" target="_blank" class="btn">访问我的 GitHub</a>
-        </section>
+<!-- █ Hero -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag">hi, i'm</div>
+    <h1>Liduo · <em>AI Inference</em><br>Engineer</h1>
+    <p>专注于大模型推理优化与部署工程化。关注如何把训练好的模型高效、稳定地跑在生产环境，不回避显存瓶颈和延迟优化中的硬骨头。</p>
+    <div class="hero-badges">
+      <span>Python</span>
+      <span>PyTorch</span>
+      <span>CUDA</span>
+      <span>vLLM</span>
+      <span>TensorRT</span>
+      <span>ONNX</span>
+      <span>Docker</span>
+      <span>LoRA</span>
+      <span>RAG</span>
     </div>
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">查看项目</a>
+      <a href="#contact" class="btn btn-ghost">联系我</a>
+    </div>
+  </div>
+</section>
 
-    <footer id="footer"></footer>
+<div class="page">
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const currentYear = new Date().getFullYear();
-            document.getElementById('footer').innerHTML = `&copy; ${currentYear} Liduo. 使用 GitHub Pages 搭建 ❤️`;
-        });
-    </script>
+<!-- █ About -->
+<section id="about">
+  <div class="section-hdr">
+    <span class="mono">// 01</span>
+    <span class="line"></span>
+    <h2>About</h2>
+  </div>
+  <div class="about-card">
+    <p>
+      我是一名 <strong>AI Inference Engineer</strong>，关注从模型训练完成到生产部署之间的工程环节：
+      模型压缩与量化、推理加速、服务化部署、资源调度。
+    </p>
+    <p>
+      在毕业设计中，我将 <strong>GLM-4-9B</strong> 通过 LoRA 微调后部署为可交互的 Web 服务，
+      整套流程涉及模型导出、<strong>FP16 推理</strong>、<strong>KV Cache</strong> 优化、
+      <strong>流式输出 (SSE)</strong> 以及 <strong>LRU 缓存</strong> 策略来降低重复推理延迟。
+      我相信「能 deploy 到生产环境」才是检验工程能力的标准。
+    </p>
+  </div>
+</section>
+
+<!-- █ Projects -->
+<section id="projects">
+  <div class="section-hdr">
+    <span class="mono">// 02</span>
+    <span class="line"></span>
+    <h2>Projects</h2>
+  </div>
+  <div class="project-card">
+    <h3>基于 GLM-4 的党建知识智能问答系统</h3>
+    <p>
+      毕业设计项目。以 GLM-4-9B-Chat 为基座模型，通过 LoRA 微调掌握党建领域表述风格，
+      结合 RAG 知识库检索（TF-IDF + FAISS 预留），构建了一套完整的问答系统。
+      后端 Tornado 异步服务集成模型推理、会话管理、LRU 双缓存、三级权限认证，
+      前端支持流式 SSE 输出与知识库管理。
+    </p>
+    <div class="meta">
+      <span>Python / Tornado</span>
+      <span>GLM-4-9B</span>
+      <span>LoRA</span>
+      <span>RAG</span>
+      <span>FP16</span>
+      <span>KV Cache</span>
+      <span>LRU Cache</span>
+      <span>SSE</span>
+    </div>
+    <a href="project-party.html" class="btn btn-ghost" style="margin-top:4px">查看项目详情 →</a>
+  </div>
+</section>
+
+<!-- █ Skills -->
+<section id="skills">
+  <div class="section-hdr">
+    <span class="mono">// 03</span>
+    <span class="line"></span>
+    <h2>Skills</h2>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <h4>Inference & Serving</h4>
+      <div class="tags">
+        <span>vLLM</span>
+        <span>TensorRT</span>
+        <span>ONNX</span>
+        <span>TorchScript</span>
+        <span>SSE Streaming</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h4>Model Optimization</h4>
+      <div class="tags">
+        <span>FP16 / INT8</span>
+        <span>LoRA</span>
+        <span>KV Cache</span>
+        <span>Gradient Checkpoint</span>
+        <span>量化感知训练</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h4>Framework & Tools</h4>
+      <div class="tags">
+        <span>PyTorch</span>
+        <span>HuggingFace</span>
+        <span>Transformers</span>
+        <span>LangChain</span>
+        <span>Scikit-learn</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h4>Infrastructure</h4>
+      <div class="tags">
+        <span>Docker</span>
+        <span>CUDA</span>
+        <span>GPU 部署</span>
+        <span>Linux</span>
+        <span>AutoDL</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- █ Contact -->
+<section id="contact">
+  <div class="section-hdr">
+    <span class="mono">// 04</span>
+    <span class="line"></span>
+    <h2>Contact</h2>
+  </div>
+  <div class="contact-grid">
+    <a href="https://github.com/Haze-mode/" target="_blank" class="contact-item">
+      <span class="icon">⌨</span>
+      <div><div class="lbl">GitHub</div><div class="sub">Haze-mode</div></div>
+    </a>
+    <a href="mailto:your-email@example.com" class="contact-item">
+      <span class="icon">✉</span>
+      <div><div class="lbl">Email</div><div class="sub">your-email@example.com</div></div>
+    </a>
+  </div>
+</section>
+
+</div><!-- /page -->
+
+<footer class="footer">
+  &copy; 2025 Liduo · built with GitHub Pages
+</footer>
+
+<script>
+(function(){
+  const toggle=document.getElementById('themeToggle');
+  const stored=localStorage.getItem('theme');
+  const prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if(stored==='dark'||(!stored&&prefersDark)){
+    document.documentElement.setAttribute('data-theme','dark');
+    toggle.textContent='☀️';
+  }
+  toggle.addEventListener('click',()=>{
+    const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+    document.documentElement.setAttribute('data-theme',isDark?'light':'dark');
+    localStorage.setItem('theme',isDark?'light':'dark');
+    toggle.textContent=isDark?'🌙':'☀️';
+  });
+
+  // scroll reveal
+  const obs=new IntersectionObserver(e=>{
+    e.forEach(entry=>{
+      if(entry.isIntersecting){entry.target.style.opacity='1';entry.target.style.transform='translateY(0)'}
+    })
+  },{threshold:.08});
+  document.querySelectorAll('.project-card,.skill-group,.contact-item,.about-card').forEach(el=>{
+    el.style.opacity='0';el.style.transform='translateY(16px)';
+    el.style.transition='opacity .5s cubic-bezier(.22,1,.36,1),transform .5s cubic-bezier(.22,1,.36,1)';
+    obs.observe(el);
+  });
+})();
+</script>
 </body>
 </html>
