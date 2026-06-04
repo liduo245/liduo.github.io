@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" data-i18n="meta-desc" content="Liduo · AI Inference Engineer — 模型推理优化 · 部署 · 全栈工程">
-<meta property="og:title" content="Liduo · AI Inference Engineer">
-<meta property="og:description" data-i18n="meta-ogdesc" content="模型推理优化 · 部署工程化 · 全栈实现">
+<meta name="description" data-i18n="meta-desc" content="Liduo · AI Developer — LLM 微调 · RAG · 全栈开发">
+<meta property="og:title" content="Liduo · AI Developer">
+<meta property="og:description" data-i18n="meta-ogdesc" content="LLM 微调 · RAG 检索增强 · 全栈开发">
 <meta property="og:type" content="website">
-<title data-i18n="page-title">Liduo · AI Inference Engineer</title>
+<title data-i18n="page-title">Liduo · AI Developer</title>
 <style>
 /* ── Reset & Variables ── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -210,7 +210,7 @@ section{margin-bottom:60px}
 }
 
 /* ── Contact ── */
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.contact-grid{display:flex;justify-content:center}
 .contact-item{
   display:flex;align-items:center;gap:12px;
   background:var(--surface);border:1px solid var(--border);
@@ -228,7 +228,7 @@ section{margin-bottom:60px}
 
 /* ── Responsive ── */
 @media(max-width:640px){
-  .skills-grid,.contact-grid{grid-template-columns:1fr}
+  .skills-grid{grid-template-columns:1fr}
   .hero{min-height:70vh}
   .hero-badges span{font-size:12px;padding:4px 12px}
   nav .nav-links a{font-size:12px;padding:5px 9px}
@@ -255,18 +255,16 @@ section{margin-bottom:60px}
   <div class="hero-glow"></div>
   <div class="hero-content">
     <div class="hero-tag" data-i18n="hero-tag">hi, i'm</div>
-    <h1>Liduo · <em>AI Inference</em><br data-i18n-hidden>Engineer</h1>
+    <h1>Liduo · <em>AI</em> Developer</h1>
     <p data-i18n="hero-desc">专注于大模型推理优化与部署工程化。关注如何把训练好的模型高效、稳定地跑在生产环境，不回避显存瓶颈和延迟优化中的硬骨头。</p>
     <div class="hero-badges">
       <span>Python</span>
       <span>PyTorch</span>
       <span>CUDA</span>
-      <span>vLLM</span>
-      <span>TensorRT</span>
-      <span>ONNX</span>
-      <span>Docker</span>
+      <span>GLM-4</span>
       <span>LoRA</span>
       <span>RAG</span>
+      <span>FP16 / KV Cache</span>
     </div>
     <div class="hero-actions">
       <a href="#projects" class="btn btn-primary" data-i18n="hero-view-projects">查看项目</a>
@@ -286,14 +284,12 @@ section{margin-bottom:60px}
   </div>
   <div class="about-card">
     <p data-i18n-html="about-p1">
-      我是一名 <strong>AI Inference Engineer</strong>，关注从模型训练完成到生产部署之间的工程环节：
-      模型压缩与量化、推理加速、服务化部署、资源调度。
+      我是一名 <strong>AI 开发者</strong>，专注于将大语言模型落地为可交互的应用。在毕业设计中完整实践了从模型微调到服务部署的全流程。
     </p>
     <p data-i18n-html="about-p2">
-      在毕业设计中，我将 <strong>GLM-4-9B</strong> 通过 LoRA 微调后部署为可交互的 Web 服务，
-      整套流程涉及模型导出、<strong>FP16 推理</strong>、<strong>KV Cache</strong> 优化、
-      <strong>流式输出 (SSE)</strong> 以及 <strong>LRU 缓存</strong> 策略来降低重复推理延迟。
-      我相信「能 deploy 到生产环境」才是检验工程能力的标准。
+      以 <strong>GLM-4-9B</strong> 为基座，通过 LoRA 微调 + RAG 检索增强构建智能问答系统，
+      后端基于 Tornado 异步框架，集成模型推理、会话管理、LRU 缓存及 SSE 流式输出。
+      这是我在毕业设计中独立完成的全栈项目。
     </p>
   </div>
 </section>
@@ -336,41 +332,37 @@ section{margin-bottom:60px}
   </div>
   <div class="skills-grid">
     <div class="skill-group">
-      <h4 data-i18n="skills-inference">Inference &amp; Serving</h4>
-      <div class="tags">
-        <span>vLLM</span>
-        <span>TensorRT</span>
-        <span>ONNX</span>
-        <span>TorchScript</span>
-        <span>SSE Streaming</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <h4 data-i18n="skills-optimization">Model Optimization</h4>
-      <div class="tags">
-        <span>FP16 / INT8</span>
-        <span>LoRA</span>
-        <span>KV Cache</span>
-        <span>Gradient Checkpoint</span>
-        <span data-i18n="skill-quant">量化感知训练</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <h4 data-i18n="skills-framework">Framework &amp; Tools</h4>
+      <h4 data-i18n="skills-finetune">Fine-tuning</h4>
       <div class="tags">
         <span>PyTorch</span>
-        <span>HuggingFace</span>
+        <span>LoRA</span>
+        <span>GLM-4</span>
+        <span>FP16</span>
+        <span>KV Cache</span>
         <span>Transformers</span>
-        <span>LangChain</span>
-        <span>Scikit-learn</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h4 data-i18n="skills-rag">RAG &amp; Retrieval</h4>
+      <div class="tags">
+        <span>TF-IDF</span>
+        <span>文档解析</span>
+        <span>文本分块</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h4 data-i18n="skills-backend">Backend</h4>
+      <div class="tags">
+        <span>Tornado</span>
+        <span>SSE Streaming</span>
+        <span>LRU Cache</span>
+        <span>REST API</span>
       </div>
     </div>
     <div class="skill-group">
       <h4 data-i18n="skills-infra">Infrastructure</h4>
       <div class="tags">
-        <span>Docker</span>
         <span>CUDA</span>
-        <span data-i18n="skill-gpu-deploy">GPU 部署</span>
         <span>Linux</span>
         <span>AutoDL</span>
       </div>
@@ -389,10 +381,6 @@ section{margin-bottom:60px}
     <a href="https://github.com/Haze-mode/" target="_blank" class="contact-item">
       <span class="icon">⌨</span>
       <div><div class="lbl">GitHub</div><div class="sub">Haze-mode</div></div>
-    </a>
-    <a href="mailto:your-email@example.com" class="contact-item">
-      <span class="icon">✉</span>
-      <div><div class="lbl">Email</div><div class="sub">your-email@example.com</div></div>
     </a>
   </div>
 </section>
@@ -428,28 +416,26 @@ section{margin-bottom:60px}
       'nav-skills':'技能',
       'nav-contact':'联系',
       'hero-tag':'hi, i\'m',
-      'hero-desc':'专注于大模型推理优化与部署工程化。关注如何把训练好的模型高效、稳定地跑在生产环境，不回避显存瓶颈和延迟优化中的硬骨头。',
+      'hero-desc':'从毕业设计出发，完整实践了大模型微调 + RAG 检索增强的全流程开发。关注如何把训练好的模型变成可交互的应用。',
       'hero-view-projects':'查看项目',
       'hero-contact':'联系我',
       'about-title':'About',
-      'about-p1':'我是一名 <strong>AI Inference Engineer</strong>，关注从模型训练完成到生产部署之间的工程环节：模型压缩与量化、推理加速、服务化部署、资源调度。',
-      'about-p2':'在毕业设计中，我将 <strong>GLM-4-9B</strong> 通过 LoRA 微调后部署为可交互的 Web 服务，整套流程涉及模型导出、<strong>FP16 推理</strong>、<strong>KV Cache</strong> 优化、<strong>流式输出 (SSE)</strong> 以及 <strong>LRU 缓存</strong> 策略来降低重复推理延迟。我相信「能 deploy 到生产环境」才是检验工程能力的标准。',
+      'about-p1':'我是一名 <strong>AI 开发者</strong>，专注于将大语言模型落地为可交互的应用。在毕业设计中完整实践了从模型微调到服务部署的全流程。',
+      'about-p2':'以 <strong>GLM-4-9B</strong> 为基座，通过 LoRA 微调 + RAG 检索增强构建智能问答系统，后端基于 Tornado 异步框架，集成模型推理、会话管理、LRU 缓存及 SSE 流式输出。这是我在毕业设计中独立完成的全栈项目。',
       'projects-title':'Projects',
       'project-1-title':'基于 GLM-4 的党建知识智能问答系统',
       'project-1-desc':'毕业设计项目。以 GLM-4-9B-Chat 为基座模型，通过 LoRA 微调掌握党建领域表述风格，结合 RAG 知识库检索（TF-IDF + FAISS 预留），构建了一套完整的问答系统。后端 Tornado 异步服务集成模型推理、会话管理、LRU 双缓存、三级权限认证，前端支持流式 SSE 输出与知识库管理。',
       'project-1-link':'查看项目详情 →',
       'skills-title':'Skills',
-      'skills-inference':'Inference & Serving',
-      'skills-optimization':'Model Optimization',
-      'skills-framework':'Framework & Tools',
+      'skills-finetune':'Fine-tuning',
+      'skills-rag':'RAG & Retrieval',
+      'skills-backend':'Backend',
       'skills-infra':'Infrastructure',
-      'skill-quant':'量化感知训练',
-      'skill-gpu-deploy':'GPU 部署',
       'contact-title':'Contact',
       'footer-text':'© 2025 Liduo · built with GitHub Pages',
-      'meta-desc':'Liduo · AI Inference Engineer — 模型推理优化 · 部署 · 全栈工程',
-      'meta-ogdesc':'模型推理优化 · 部署工程化 · 全栈实现',
-      'page-title':'Liduo · AI Inference Engineer',
+      'meta-desc':'Liduo · AI Developer — LLM 微调 · RAG · 全栈开发',
+      'meta-ogdesc':'LLM 微调 · RAG 检索增强 · 全栈开发',
+      'page-title':'Liduo · AI Developer',
       'lang-btn':'EN'
     },
     en:{
@@ -458,28 +444,26 @@ section{margin-bottom:60px}
       'nav-skills':'Skills',
       'nav-contact':'Contact',
       'hero-tag':'hi, i\'m',
-      'hero-desc':'Focused on large model inference optimization and deployment engineering. Committed to running trained models efficiently and stably in production, tackling VRAM bottlenecks and latency optimization head-on.',
+      'hero-desc':'Starting from a graduation project, I built an end-to-end LLM application covering fine-tuning and RAG retrieval augmentation. Focused on turning trained models into interactive applications.',
       'hero-view-projects':'View Projects',
       'hero-contact':'Contact Me',
       'about-title':'About',
-      'about-p1':'I\'m an <strong>AI Inference Engineer</strong>, focused on the engineering between model training completion and production deployment: model compression and quantization, inference acceleration, service deployment, and resource scheduling.',
-      'about-p2':'In my graduation project, I fine-tuned <strong>GLM-4-9B</strong> with LoRA and deployed it as an interactive web service. The full pipeline involves model export, <strong>FP16 inference</strong>, <strong>KV Cache</strong> optimization, <strong>SSE streaming</strong>, and <strong>LRU caching</strong> strategies to reduce repeated inference latency. I believe "being able to deploy to production" is the true measure of engineering capability.',
+      'about-p1':'I\'m an <strong>AI Developer</strong>, focused on turning large language models into interactive applications. My graduation project covered the full pipeline from model fine-tuning to service deployment.',
+      'about-p2':'Built an intelligent Q&A system using <strong>GLM-4-9B</strong> as the base model with LoRA fine-tuning and RAG retrieval augmentation. The backend runs on Tornado async framework, integrating model inference, session management, LRU caching, and SSE streaming. A full-stack graduation project I built independently.',
       'projects-title':'Projects',
       'project-1-title':'GLM-4 Based Party Building Q&A System',
       'project-1-desc':'A graduation project. Using GLM-4-9B-Chat as the base model, fine-tuned with LoRA to master party-building domain expression styles, combined with RAG knowledge base retrieval (TF-IDF + FAISS预留), building a complete Q&A system. The Tornado backend integrates model inference, session management, LRU dual cache, and three-level authentication, while the frontend supports SSE streaming and knowledge base management.',
       'project-1-link':'View Details →',
       'skills-title':'Skills',
-      'skills-inference':'Inference & Serving',
-      'skills-optimization':'Model Optimization',
-      'skills-framework':'Framework & Tools',
+      'skills-finetune':'Fine-tuning',
+      'skills-rag':'RAG & Retrieval',
+      'skills-backend':'Backend',
       'skills-infra':'Infrastructure',
-      'skill-quant':'Quantization-Aware Training',
-      'skill-gpu-deploy':'GPU Deployment',
       'contact-title':'Contact',
       'footer-text':'© 2025 Liduo · built with GitHub Pages',
-      'meta-desc':'Liduo · AI Inference Engineer — Inference Optimization · Deployment · Full-Stack Engineering',
-      'meta-ogdesc':'Model Inference Optimization · Deployment Engineering · Full-Stack Implementation',
-      'page-title':'Liduo · AI Inference Engineer',
+      'meta-desc':'Liduo · AI Developer — LLM Fine-tuning · RAG · Full-Stack Development',
+      'meta-ogdesc':'LLM Fine-tuning · RAG Retrieval · Full-Stack Development',
+      'page-title':'Liduo · AI Developer',
       'lang-btn':'中'
     }
   };

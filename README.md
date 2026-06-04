@@ -75,7 +75,6 @@ graph TD
 
 ## 📬 联系方式
 
-- 邮箱：`your-email@example.com`（待更新）  
 - GitHub：[https://github.com/Haze-mode/](https://github.com/Haze-mode/)
 
 ---
