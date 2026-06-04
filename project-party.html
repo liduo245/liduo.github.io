@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="基于GLM-4的党建知识智能问答系统 — LoRA微调 + RAG检索增强 + Web全栈毕业设计项目详情">
-<title>GLM-4 党建智能问答系统 · 项目详情</title>
+<meta name="description" data-i18n="meta-desc" content="基于GLM-4的党建知识智能问答系统 — LoRA微调 + RAG检索增强 + Web全栈毕业设计项目详情">
+<title data-i18n="page-title">GLM-4 党建智能问答系统 · 项目详情</title>
 <style>
 /* ───── Reset & Variables ───── */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -87,12 +87,20 @@ body::after{
   opacity:.7;transition:opacity .2s;
 }
 .top-bar a:hover{opacity:1}
-.theme-btn{
+.top-bar-actions{display:flex;align-items:center;gap:6px}
+.theme-btn,.lang-btn{
   background:transparent;border:1px solid var(--c-border);
   border-radius:6px;padding:3px 10px;cursor:pointer;
-  font-size:15px;line-height:1.6;color:var(--c-text);
+  font-size:13px;line-height:1.6;color:var(--c-text);
   transition:border-color .3s;
 }
+.lang-btn{
+  font-weight:700;letter-spacing:.5px;min-width:36px;text-align:center;
+  background:var(--c-accent);color:#fff;border-color:var(--c-accent);
+  padding:3px 10px;border-radius:6px;font-size:13px;line-height:1.6;
+  transition:background .25s,transform .2s;
+}
+.lang-btn:hover{background:var(--c-accent-hover);transform:scale(1.05)}
 
 /* ───── Hero ───── */
 .hero{
@@ -137,7 +145,7 @@ body::after{
 /* ───── Container ───── */
 .page{max-width:840px;margin:0 auto;padding:0 24px 80px}
 
-/* ───── TL;DR for beginners ───── */
+/* ───── TL;DR ───── */
 .tldr-grid{
   display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
   margin-bottom:48px;
@@ -316,17 +324,20 @@ th{background:var(--c-metric-bg);font-weight:600;font-size:13px}
 <div class="top-bar">
   <a href="index.html">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m7-7-7 7 7 7"/></svg>
-    返回主页
+    <span data-i18n="back-home">返回主页</span>
   </a>
-  <button class="theme-btn" id="themeToggle" aria-label="切换主题">🌙</button>
+  <div class="top-bar-actions">
+    <button class="lang-btn" id="langToggle" aria-label="Switch language">EN</button>
+    <button class="theme-btn" id="themeToggle" aria-label="切换主题">🌙</button>
+  </div>
 </div>
 
 <!-- █ Hero -->
 <section class="hero">
   <div class="hero-glow"></div>
-  <div class="hero-label">Graduation Project · 2025</div>
-  <h1>基于 GLM-4 的<br>党建知识智能问答系统</h1>
-  <p>将大语言模型微调与知识库检索增强相结合，构建面向党建领域的专业智能问答系统。</p>
+  <div class="hero-label" data-i18n="project-hero-label">Graduation Project · 2025</div>
+  <h1 data-i18n-html="project-hero-title">基于 GLM-4 的<br>党建知识智能问答系统</h1>
+  <p data-i18n="project-hero-desc">将大语言模型微调与知识库检索增强相结合，构建面向党建领域的专业智能问答系统。</p>
   <div class="hero-badges">
     <span class="hero-badge">GLM-4-9B-Chat</span>
     <span class="hero-badge">LoRA 微调</span>
@@ -339,130 +350,130 @@ th{background:var(--c-metric-bg);font-weight:600;font-size:13px}
 
 <div class="page">
 
-<!-- █ TL;DR — 给小白看 -->
+<!-- █ TL;DR -->
 <section>
   <div class="section-header">
-    <h2>一句话说清楚</h2>
+    <h2 data-i18n="tldr-title">一句话说清楚</h2>
     <span class="line"></span>
   </div>
   <div class="tldr-grid">
     <div class="tldr-card">
       <div class="num">01</div>
-      <h3>给 AI 喂了党建知识</h3>
-      <p>把党章党规、政策文件等文档整理成知识库，AI 回答问题时先查资料再回答，不瞎编。</p>
+      <h3 data-i18n="tldr-1-title">给 AI 喂了党建知识</h3>
+      <p data-i18n="tldr-1-desc">把党章党规、政策文件等文档整理成知识库，AI 回答问题时先查资料再回答，不瞎编。</p>
     </div>
     <div class="tldr-card">
       <div class="num">02</div>
-      <h3>让 AI 学会说"党言党语"</h3>
-      <p>用 LoRA 微调技术给模型做专项训练，让它掌握党建领域的专业表述风格和术语。</p>
+      <h3 data-i18n="tldr-2-title">让 AI 学会说"党言党语"</h3>
+      <p data-i18n="tldr-2-desc">用 LoRA 微调技术给模型做专项训练，让它掌握党建领域的专业表述风格和术语。</p>
     </div>
     <div class="tldr-card">
       <div class="num">03</div>
-      <h3>做成了完整可用的产品</h3>
-      <p>不是 demo，有用户登录、多轮对话、知识库管理、会话历史，前后端全跑通。</p>
+      <h3 data-i18n="tldr-3-title">做成了完整可用的产品</h3>
+      <p data-i18n="tldr-3-desc">不是 demo，有用户登录、多轮对话、知识库管理、会话历史，前后端全跑通。</p>
     </div>
   </div>
 </section>
 
-<!-- █ 核心数据 -->
+<!-- █ Metrics -->
 <section>
   <div class="section-header">
-    <h2>核心指标</h2>
+    <h2 data-i18n="metrics-title">核心指标</h2>
     <span class="line"></span>
   </div>
   <div class="metrics">
-    <div class="metric"><div class="val">9B</div><div class="lbl">基座模型参数</div></div>
-    <div class="metric"><div class="val">0.11%</div><div class="lbl">LoRA 训练参比例</div></div>
-    <div class="metric"><div class="val">&lt;0.2s</div><div class="lbl">缓存命中响应</div></div>
-    <div class="metric"><div class="val">3 级</div><div class="lbl">权限体系</div></div>
+    <div class="metric"><div class="val">9B</div><div class="lbl" data-i18n="metric-1">基座模型参数</div></div>
+    <div class="metric"><div class="val">0.11%</div><div class="lbl" data-i18n="metric-2">LoRA 训练参比例</div></div>
+    <div class="metric"><div class="val">&lt;0.2s</div><div class="lbl" data-i18n="metric-3">缓存命中响应</div></div>
+    <div class="metric"><div class="val">3 级</div><div class="lbl" data-i18n="metric-4">权限体系</div></div>
   </div>
 </section>
 
-<!-- █ 系统架构 -->
+<!-- █ Architecture -->
 <section>
   <div class="section-header">
-    <h2>系统架构</h2>
+    <h2 data-i18n="arch-title">系统架构</h2>
     <span class="line"></span>
   </div>
   <div class="arch">
     <div class="arch-flow">
-      <div class="arch-node">用户浏览器<br><span class="sub">HTML/JS 前端</span></div>
+      <div class="arch-node" data-i18n-html="arch-node-1">用户浏览器<br><span class="sub">HTML/JS 前端</span></div>
       <span class="arch-arrow">→</span>
-      <div class="arch-node">Tornado Server<br><span class="sub">认证 · 路由 · 异常</span></div>
+      <div class="arch-node" data-i18n-html="arch-node-2">Tornado Server<br><span class="sub">认证 · 路由 · 异常</span></div>
       <span class="arch-arrow">→</span>
-      <div class="arch-node">RAG Engine<br><span class="sub">会话 · 提示词 · 缓存</span></div>
+      <div class="arch-node" data-i18n-html="arch-node-3">RAG Engine<br><span class="sub">会话 · 提示词 · 缓存</span></div>
     </div>
-    <div class="arch-label">↓ 下游模块</div>
+    <div class="arch-label" data-i18n="arch-downstream">↓ 下游模块</div>
     <div class="arch-branch">
-      <div class="arch-node">知识库检索<br><span class="sub">TF-IDF · 文档解析</span></div>
-      <div class="arch-node">模型推理<br><span class="sub">GLM-4 + LoRA</span></div>
-      <div class="arch-node">LRU 缓存<br><span class="sub">检索 1000 / 回答 500</span></div>
+      <div class="arch-node" data-i18n-html="arch-node-4">知识库检索<br><span class="sub">TF-IDF · 文档解析</span></div>
+      <div class="arch-node" data-i18n-html="arch-node-5">模型推理<br><span class="sub">GLM-4 + LoRA</span></div>
+      <div class="arch-node" data-i18n-html="arch-node-6">LRU 缓存<br><span class="sub">检索 1000 / 回答 500</span></div>
     </div>
   </div>
 </section>
 
-<!-- █ 核心模块 -->
+<!-- █ Details -->
 <section>
   <div class="section-header">
-    <h2>技术实现细节</h2>
+    <h2 data-i18n="detail-title">技术实现细节</h2>
     <span class="line"></span>
   </div>
-  <p class="section-sub">面向技术读者，每个模块的关键设计决策</p>
+  <p class="section-sub" data-i18n="detail-sub">面向技术读者，每个模块的关键设计决策</p>
   <div class="detail-grid">
 
     <div class="detail-card">
-      <h3><span class="icon">▷</span> LoRA 微调</h3>
+      <h3><span class="icon">▷</span> <span data-i18n="detail-lora">LoRA 微调</span></h3>
       <ul>
-        <li>基座：GLM-4-9B-Chat，秩 r=16</li>
-        <li>仅训练 0.11% 参数（~1081万）</li>
-        <li>800 步，有效 batch=8，lr=5e-5</li>
-        <li>Warmup + cosine 衰减 + 梯度检查点</li>
-        <li>最佳 checkpoint-600（ROUGE-1=4.42）</li>
+        <li data-i18n="lora-1">基座：GLM-4-9B-Chat，秩 r=16</li>
+        <li data-i18n="lora-2">仅训练 0.11% 参数（~1081万）</li>
+        <li data-i18n="lora-3">800 步，有效 batch=8，lr=5e-5</li>
+        <li data-i18n="lora-4">Warmup + cosine 衰减 + 梯度检查点</li>
+        <li data-i18n="lora-5">最佳 checkpoint-600（ROUGE-1=4.42）</li>
       </ul>
     </div>
 
     <div class="detail-card">
-      <h3><span class="icon">▷</span> RAG 知识库检索</h3>
+      <h3><span class="icon">▷</span> <span data-i18n="detail-rag">RAG 知识库检索</span></h3>
       <ul>
-        <li>支持 PDF / DOCX / TXT 解析</li>
-        <li>段落优先切分，512 字符递归 + 50 重叠</li>
-        <li>TfidfVectorizer 构建词项-文档矩阵</li>
-        <li>点积相似度，Top-K（默认 K=3）</li>
-        <li>FAISS 向量检索逻辑已预留</li>
+        <li data-i18n="rag-1">支持 PDF / DOCX / TXT 解析</li>
+        <li data-i18n="rag-2">段落优先切分，512 字符递归 + 50 重叠</li>
+        <li data-i18n="rag-3">TfidfVectorizer 构建词项-文档矩阵</li>
+        <li data-i18n="rag-4">点积相似度，Top-K（默认 K=3）</li>
+        <li data-i18n="rag-5">FAISS 向量检索逻辑已预留</li>
       </ul>
     </div>
 
     <div class="detail-card">
-      <h3><span class="icon">▷</span> 缓存系统</h3>
+      <h3><span class="icon">▷</span> <span data-i18n="detail-cache">缓存系统</span></h3>
       <ul>
-        <li>双 LRU 缓存：检索 1000 + 回答 500</li>
-        <li>OrderedDict + MD5 哈希 + TTL 3600s</li>
-        <li>后台定时清理过期条目</li>
-        <li>缓存命中：6-10s → 0.2s</li>
+        <li data-i18n="cache-1">双 LRU 缓存：检索 1000 + 回答 500</li>
+        <li data-i18n="cache-2">OrderedDict + MD5 哈希 + TTL 3600s</li>
+        <li data-i18n="cache-3">后台定时清理过期条目</li>
+        <li data-i18n="cache-4">缓存命中：6-10s → 0.2s</li>
       </ul>
     </div>
 
     <div class="detail-card">
-      <h3><span class="icon">▷</span> 会话 &amp; 认证</h3>
+      <h3><span class="icon">▷</span> <span data-i18n="detail-session">会话 &amp; 认证</span></h3>
       <ul>
-        <li>session_id 内存会话，与认证解耦</li>
-        <li>游客 / 普通用户 / 管理员 三级</li>
-        <li>UUID Token + SHA256 密码哈希</li>
-        <li>保留最近 10 轮，TTL=3600s</li>
+        <li data-i18n="session-1">session_id 内存会话，与认证解耦</li>
+        <li data-i18n="session-2">游客 / 普通用户 / 管理员 三级</li>
+        <li data-i18n="session-3">UUID Token + SHA256 密码哈希</li>
+        <li data-i18n="session-4">保留最近 10 轮，TTL=3600s</li>
       </ul>
     </div>
 
   </div>
 </section>
 
-<!-- █ 训练过程可视化 -->
+<!-- █ Training -->
 <section>
   <div class="section-header">
-    <h2>微调训练过程</h2>
+    <h2 data-i18n="train-title">微调训练过程</h2>
     <span class="line"></span>
   </div>
   <div class="train-visual">
-    <p style="font-size:14px;color:var(--c-text-secondary);margin-bottom:4px">验证集 ROUGE-1 随训练步数变化</p>
+    <p style="font-size:14px;color:var(--c-text-secondary);margin-bottom:4px" data-i18n="train-sub">验证集 ROUGE-1 随训练步数变化</p>
     <div class="train-bars">
       <div class="train-bar-group">
         <div class="train-bar" style="height:67%"><span class="pct">2.97</span></div>
@@ -481,65 +492,110 @@ th{background:var(--c-metric-bg);font-weight:600;font-size:13px}
         <span class="train-step">800</span>
       </div>
     </div>
-    <div class="train-note">
+    <div class="train-note" data-i18n-html="train-note">
       典型的<strong>小样本过拟合</strong>现象：验证指标在第 600 步达到峰值后骤降，训练 Loss 趋近于零。
       最终选取 <strong>checkpoint-600</strong> 作为最优模型。
     </div>
   </div>
 </section>
 
-<!-- █ API 接口 -->
+<!-- █ API -->
 <section>
   <div class="section-header">
-    <h2>API 接口设计</h2>
+    <h2 data-i18n="api-title">API 接口设计</h2>
     <span class="line"></span>
   </div>
   <div class="table-wrap">
     <table>
-      <tr><th>接口</th><th>方法</th><th>功能</th><th>权限</th></tr>
-      <tr><td><code>/api/login</code></td><td>POST</td><td>用户登录</td><td>公开</td></tr>
-      <tr><td><code>/api/logout</code></td><td>POST</td><td>用户登出</td><td>已登录</td></tr>
-      <tr><td><code>/api/chatbot</code></td><td>POST</td><td>智能问答（SSE 流式）</td><td>已登录 / 游客</td></tr>
-      <tr><td><code>/api/session/history</code></td><td>GET</td><td>获取会话历史</td><td>已登录 / 游客</td></tr>
-      <tr><td><code>/api/session/clear</code></td><td>GET</td><td>清空当前会话</td><td>已登录 / 游客</td></tr>
-      <tr><td><code>/api/kb/files</code></td><td>GET</td><td>知识库文件列表</td><td>管理员</td></tr>
-      <tr><td><code>/api/kb/upload</code></td><td>POST</td><td>上传文档</td><td>管理员</td></tr>
-      <tr><td><code>/api/kb/reload</code></td><td>POST</td><td>重建索引</td><td>管理员</td></tr>
+      <tr>
+        <th data-i18n="api-th-endpoint">接口</th>
+        <th data-i18n="api-th-method">方法</th>
+        <th data-i18n="api-th-desc">功能</th>
+        <th data-i18n="api-th-auth">权限</th>
+      </tr>
+      <tr>
+        <td><code>/api/login</code></td>
+        <td>POST</td>
+        <td data-i18n="api-login">用户登录</td>
+        <td data-i18n="api-public">公开</td>
+      </tr>
+      <tr>
+        <td><code>/api/logout</code></td>
+        <td>POST</td>
+        <td data-i18n="api-logout">用户登出</td>
+        <td data-i18n="api-loggedin">已登录</td>
+      </tr>
+      <tr>
+        <td><code>/api/chatbot</code></td>
+        <td>POST</td>
+        <td data-i18n="api-chatbot">智能问答（SSE 流式）</td>
+        <td data-i18n="api-loggedin-or-guest">已登录 / 游客</td>
+      </tr>
+      <tr>
+        <td><code>/api/session/history</code></td>
+        <td>GET</td>
+        <td data-i18n="api-session-history">获取会话历史</td>
+        <td data-i18n="api-loggedin-or-guest">已登录 / 游客</td>
+      </tr>
+      <tr>
+        <td><code>/api/session/clear</code></td>
+        <td>GET</td>
+        <td data-i18n="api-session-clear">清空当前会话</td>
+        <td data-i18n="api-loggedin-or-guest">已登录 / 游客</td>
+      </tr>
+      <tr>
+        <td><code>/api/kb/files</code></td>
+        <td>GET</td>
+        <td data-i18n="api-kb-files">知识库文件列表</td>
+        <td data-i18n="api-admin">管理员</td>
+      </tr>
+      <tr>
+        <td><code>/api/kb/upload</code></td>
+        <td>POST</td>
+        <td data-i18n="api-kb-upload">上传文档</td>
+        <td data-i18n="api-admin">管理员</td>
+      </tr>
+      <tr>
+        <td><code>/api/kb/reload</code></td>
+        <td>POST</td>
+        <td data-i18n="api-kb-reload">重建索引</td>
+        <td data-i18n="api-admin">管理员</td>
+      </tr>
     </table>
   </div>
 </section>
 
-<!-- █ 已知局限 -->
+<!-- █ Limitations -->
 <section>
   <div class="section-header">
-    <h2>已知局限 &amp; 改进方向</h2>
+    <h2 data-i18n="limits-title">已知局限 &amp; 改进方向</h2>
     <span class="line"></span>
   </div>
-  <p class="section-sub">了解系统的边界比堆功能更能体现工程素养</p>
+  <p class="section-sub" data-i18n="limits-sub">了解系统的边界比堆功能更能体现工程素养</p>
   <div class="limits-grid">
     <div class="limit-card pending">
-      <strong>⚠ 训练数据过少</strong>
-      数百条样本训练 22 个 epoch 导致过拟合。需扩充数据 + 引入早停。
+      <strong data-i18n="limit-1-title">⚠ 训练数据过少</strong>
+      <span data-i18n="limit-1-desc">数百条样本训练 22 个 epoch 导致过拟合。需扩充数据 + 引入早停。</span>
     </div>
     <div class="limit-card pending">
-      <strong>⚠ FAISS 未实际部署</strong>
-      环境缺编译依赖，当前用 TF-IDF。代码已实现 FAISS 逻辑，换环境即启用。
+      <strong data-i18n="limit-2-title">⚠ FAISS 未实际部署</strong>
+      <span data-i18n="limit-2-desc">环境缺编译依赖，当前用 TF-IDF。代码已实现 FAISS 逻辑，换环境即启用。</span>
     </div>
     <div class="limit-card pending">
-      <strong>⚠ 评估指标局限</strong>
-      ROUGE/BLEU 在党建领域区分度低，后续引入 BERTScore 等语义指标。
+      <strong data-i18n="limit-3-title">⚠ 评估指标局限</strong>
+      <span data-i18n="limit-3-desc">ROUGE/BLEU 在党建领域区分度低，后续引入 BERTScore 等语义指标。</span>
     </div>
     <div class="limit-card pending">
-      <strong>⚠ 容器化未完成</strong>
-      目前在 AutoDL 直接运行，未编写 Dockerfile，环境迁移依赖手动配置。
+      <strong data-i18n="limit-4-title">⚠ 容器化未完成</strong>
+      <span data-i18n="limit-4-desc">目前在 AutoDL 直接运行，未编写 Dockerfile，环境迁移依赖手动配置。</span>
     </div>
     <div class="limit-card pending">
-      <strong>⚠ 缓存失效粒度粗</strong>
-      知识库更新时全量清空缓存，可优化为仅失效受影响条目。
+      <strong data-i18n="limit-5-title">⚠ 缓存失效粒度粗</strong>
+      <span data-i18n="limit-5-desc">知识库更新时全量清空缓存，可优化为仅失效受影响条目。</span>
     </div>
     <div class="limit-card pending">
-      <strong>⚠ 知识库覆盖面有限</strong>
-      当前仅包含基础党建文献，需持续扩充以提升实用性。
+      <strong data-i18n="limit-6-title">⚠ 知识库覆盖面有限</strong>
+      <span data-i18n="limit-6-desc">当前仅包含基础党建文献，需持续扩充以提升实用性。</span>
     </div>
   </div>
 </section>
@@ -549,9 +605,9 @@ th{background:var(--c-metric-bg);font-weight:600;font-size:13px}
   <div class="actions">
     <a href="https://github.com/Haze-mode/Party-Building-Q-A-Chatbot" target="_blank" class="btn btn-primary">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-      GitHub 源码
+      <span data-i18n="github-link">GitHub 源码</span>
     </a>
-    <a href="index.html" class="btn btn-ghost">← 返回主页</a>
+    <a href="index.html" class="btn btn-ghost"><span data-i18n="back-link">← 返回主页</span></a>
   </div>
 </section>
 
@@ -559,6 +615,7 @@ th{background:var(--c-metric-bg);font-weight:600;font-size:13px}
 
 <script>
 (function(){
+  // ── Theme ──
   const toggle=document.getElementById('themeToggle');
   const stored=localStorage.getItem('theme');
   const prefersDark=window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -573,7 +630,228 @@ th{background:var(--c-metric-bg);font-weight:600;font-size:13px}
     toggle.textContent=isDark?'🌙':'☀️';
   });
 
-  // fade-in on scroll
+  // ── i18n ──
+  const LANG={
+    zh:{
+      'back-home':'返回主页',
+      'project-hero-label':'Graduation Project · 2025',
+      'project-hero-title':'基于 GLM-4 的<br>党建知识智能问答系统',
+      'project-hero-desc':'将大语言模型微调与知识库检索增强相结合，构建面向党建领域的专业智能问答系统。',
+      'tldr-title':'一句话说清楚',
+      'tldr-1-title':'给 AI 喂了党建知识',
+      'tldr-1-desc':'把党章党规、政策文件等文档整理成知识库，AI 回答问题时先查资料再回答，不瞎编。',
+      'tldr-2-title':'让 AI 学会说"党言党语"',
+      'tldr-2-desc':'用 LoRA 微调技术给模型做专项训练，让它掌握党建领域的专业表述风格和术语。',
+      'tldr-3-title':'做成了完整可用的产品',
+      'tldr-3-desc':'不是 demo，有用户登录、多轮对话、知识库管理、会话历史，前后端全跑通。',
+      'metrics-title':'核心指标',
+      'metric-1':'基座模型参数',
+      'metric-2':'LoRA 训练参比例',
+      'metric-3':'缓存命中响应',
+      'metric-4':'权限体系',
+      'arch-title':'系统架构',
+      'arch-node-1':'用户浏览器<br><span class="sub">HTML/JS 前端</span>',
+      'arch-node-2':'Tornado Server<br><span class="sub">认证 · 路由 · 异常</span>',
+      'arch-node-3':'RAG Engine<br><span class="sub">会话 · 提示词 · 缓存</span>',
+      'arch-downstream':'↓ 下游模块',
+      'arch-node-4':'知识库检索<br><span class="sub">TF-IDF · 文档解析</span>',
+      'arch-node-5':'模型推理<br><span class="sub">GLM-4 + LoRA</span>',
+      'arch-node-6':'LRU 缓存<br><span class="sub">检索 1000 / 回答 500</span>',
+      'detail-title':'技术实现细节',
+      'detail-sub':'面向技术读者，每个模块的关键设计决策',
+      'detail-lora':'LoRA 微调',
+      'lora-1':'基座：GLM-4-9B-Chat，秩 r=16',
+      'lora-2':'仅训练 0.11% 参数（~1081万）',
+      'lora-3':'800 步，有效 batch=8，lr=5e-5',
+      'lora-4':'Warmup + cosine 衰减 + 梯度检查点',
+      'lora-5':'最佳 checkpoint-600（ROUGE-1=4.42）',
+      'detail-rag':'RAG 知识库检索',
+      'rag-1':'支持 PDF / DOCX / TXT 解析',
+      'rag-2':'段落优先切分，512 字符递归 + 50 重叠',
+      'rag-3':'TfidfVectorizer 构建词项-文档矩阵',
+      'rag-4':'点积相似度，Top-K（默认 K=3）',
+      'rag-5':'FAISS 向量检索逻辑已预留',
+      'detail-cache':'缓存系统',
+      'cache-1':'双 LRU 缓存：检索 1000 + 回答 500',
+      'cache-2':'OrderedDict + MD5 哈希 + TTL 3600s',
+      'cache-3':'后台定时清理过期条目',
+      'cache-4':'缓存命中：6-10s → 0.2s',
+      'detail-session':'会话 & 认证',
+      'session-1':'session_id 内存会话，与认证解耦',
+      'session-2':'游客 / 普通用户 / 管理员 三级',
+      'session-3':'UUID Token + SHA256 密码哈希',
+      'session-4':'保留最近 10 轮，TTL=3600s',
+      'train-title':'微调训练过程',
+      'train-sub':'验证集 ROUGE-1 随训练步数变化',
+      'train-note':'典型的<strong>小样本过拟合</strong>现象：验证指标在第 600 步达到峰值后骤降，训练 Loss 趋近于零。最终选取 <strong>checkpoint-600</strong> 作为最优模型。',
+      'api-title':'API 接口设计',
+      'api-th-endpoint':'接口',
+      'api-th-method':'方法',
+      'api-th-desc':'功能',
+      'api-th-auth':'权限',
+      'api-login':'用户登录',
+      'api-public':'公开',
+      'api-logout':'用户登出',
+      'api-loggedin':'已登录',
+      'api-chatbot':'智能问答（SSE 流式）',
+      'api-loggedin-or-guest':'已登录 / 游客',
+      'api-session-history':'获取会话历史',
+      'api-session-clear':'清空当前会话',
+      'api-kb-files':'知识库文件列表',
+      'api-kb-upload':'上传文档',
+      'api-admin':'管理员',
+      'api-kb-reload':'重建索引',
+      'limits-title':'已知局限 & 改进方向',
+      'limits-sub':'了解系统的边界比堆功能更能体现工程素养',
+      'limit-1-title':'⚠ 训练数据过少',
+      'limit-1-desc':'数百条样本训练 22 个 epoch 导致过拟合。需扩充数据 + 引入早停。',
+      'limit-2-title':'⚠ FAISS 未实际部署',
+      'limit-2-desc':'环境缺编译依赖，当前用 TF-IDF。代码已实现 FAISS 逻辑，换环境即启用。',
+      'limit-3-title':'⚠ 评估指标局限',
+      'limit-3-desc':'ROUGE/BLEU 在党建领域区分度低，后续引入 BERTScore 等语义指标。',
+      'limit-4-title':'⚠ 容器化未完成',
+      'limit-4-desc':'目前在 AutoDL 直接运行，未编写 Dockerfile，环境迁移依赖手动配置。',
+      'limit-5-title':'⚠ 缓存失效粒度粗',
+      'limit-5-desc':'知识库更新时全量清空缓存，可优化为仅失效受影响条目。',
+      'limit-6-title':'⚠ 知识库覆盖面有限',
+      'limit-6-desc':'当前仅包含基础党建文献，需持续扩充以提升实用性。',
+      'github-link':'GitHub 源码',
+      'back-link':'← 返回主页',
+      'meta-desc':'基于GLM-4的党建知识智能问答系统 — LoRA微调 + RAG检索增强 + Web全栈毕业设计项目详情',
+      'page-title':'GLM-4 党建智能问答系统 · 项目详情',
+      'lang-btn':'EN'
+    },
+    en:{
+      'back-home':'Back to Home',
+      'project-hero-label':'Graduation Project · 2025',
+      'project-hero-title':'GLM-4 Based<br>Party Building Q&A System',
+      'project-hero-desc':'Combining large language model fine-tuning with knowledge base retrieval augmentation to build a professional intelligent Q&A system for the party-building domain.',
+      'tldr-title':'In a Nutshell',
+      'tldr-1-title':'Fed AI with Party-building Knowledge',
+      'tldr-1-desc':'Organized party documents into a knowledge base — the AI searches before answering, no hallucination.',
+      'tldr-2-title':'Taught AI the Party Language',
+      'tldr-2-desc':'Used LoRA fine-tuning to train the model on specialized party-building terminology and expression styles.',
+      'tldr-3-title':'A Fully Functional Product',
+      'tldr-3-desc':'Not just a demo — includes user login, multi-turn dialogue, knowledge base management, and session history, all end-to-end.',
+      'metrics-title':'Key Metrics',
+      'metric-1':'Base Model Parameters',
+      'metric-2':'LoRA Trainable Ratio',
+      'metric-3':'Cache Hit Response',
+      'metric-4':'Auth Levels',
+      'arch-title':'System Architecture',
+      'arch-node-1':'User Browser<br><span class="sub">HTML/JS Frontend</span>',
+      'arch-node-2':'Tornado Server<br><span class="sub">Auth · Routing · Error Handling</span>',
+      'arch-node-3':'RAG Engine<br><span class="sub">Session · Prompt · Cache</span>',
+      'arch-downstream':'↓ Downstream Modules',
+      'arch-node-4':'Knowledge Retrieval<br><span class="sub">TF-IDF · Document Parsing</span>',
+      'arch-node-5':'Model Inference<br><span class="sub">GLM-4 + LoRA</span>',
+      'arch-node-6':'LRU Cache<br><span class="sub">Retrieval 1000 / Response 500</span>',
+      'detail-title':'Technical Implementation',
+      'detail-sub':'Key design decisions for each module (for technical readers)',
+      'detail-lora':'LoRA Fine-tuning',
+      'lora-1':'Base: GLM-4-9B-Chat, rank r=16',
+      'lora-2':'Only 0.11% params trained (~10.81M)',
+      'lora-3':'800 steps, effective batch=8, lr=5e-5',
+      'lora-4':'Warmup + cosine decay + gradient checkpoint',
+      'lora-5':'Best checkpoint-600 (ROUGE-1=4.42)',
+      'detail-rag':'RAG Knowledge Retrieval',
+      'rag-1':'Supports PDF / DOCX / TXT parsing',
+      'rag-2':'Paragraph-first split, 512-char recursive + 50 overlap',
+      'rag-3':'TfidfVectorizer builds term-document matrix',
+      'rag-4':'Dot product similarity, Top-K (default K=3)',
+      'rag-5':'FAISS vector search logic ready (reserved)',
+      'detail-cache':'Cache System',
+      'cache-1':'Dual LRU cache: retrieval 1000 + response 500',
+      'cache-2':'OrderedDict + MD5 hash + TTL 3600s',
+      'cache-3':'Background timer cleans expired entries',
+      'cache-4':'Cache hit: 6-10s → 0.2s',
+      'detail-session':'Session & Auth',
+      'session-1':'In-memory session_id, decoupled from auth',
+      'session-2':'Guest / User / Admin three levels',
+      'session-3':'UUID Token + SHA256 password hash',
+      'session-4':'Keeps last 10 turns, TTL=3600s',
+      'train-title':'Fine-tuning Progress',
+      'train-sub':'Validation ROUGE-1 over training steps',
+      'train-note':'A classic case of <strong>few-shot overfitting</strong>: validation metrics peaked at step 600 then dropped sharply, while training loss approached zero. Selected <strong>checkpoint-600</strong> as the best model.',
+      'api-title':'API Design',
+      'api-th-endpoint':'Endpoint',
+      'api-th-method':'Method',
+      'api-th-desc':'Description',
+      'api-th-auth':'Auth',
+      'api-login':'User login',
+      'api-public':'Public',
+      'api-logout':'User logout',
+      'api-loggedin':'Logged in',
+      'api-chatbot':'Q&A (SSE streaming)',
+      'api-loggedin-or-guest':'Logged in / Guest',
+      'api-session-history':'Get session history',
+      'api-session-clear':'Clear current session',
+      'api-kb-files':'Knowledge base file list',
+      'api-kb-upload':'Upload document',
+      'api-admin':'Admin',
+      'api-kb-reload':'Rebuild index',
+      'limits-title':'Limitations & Improvements',
+      'limits-sub':'Understanding boundaries shows engineering maturity',
+      'limit-1-title':'⚠ Insufficient Training Data',
+      'limit-1-desc':'Hundreds of samples trained for 22 epochs caused overfitting. Need data expansion + early stopping.',
+      'limit-2-title':'⚠ FAISS Not Deployed',
+      'limit-2-desc':'Missing compilation dependencies; currently using TF-IDF. FAISS code is ready and will work in the right environment.',
+      'limit-3-title':'⚠ Limited Evaluation Metrics',
+      'limit-3-desc':'ROUGE/BLEU have low discriminability in party-building domain. Plan to introduce BERTScore etc.',
+      'limit-4-title':'⚠ No Containerization',
+      'limit-4-desc':'Currently running on AutoDL directly. No Dockerfile — environment migration requires manual setup.',
+      'limit-5-title':'⚠ Coarse Cache Invalidation',
+      'limit-5-desc':'Updating the knowledge base clears all cache. Can optimize to invalidate only affected entries.',
+      'limit-6-title':'⚠ Limited Knowledge Coverage',
+      'limit-6-desc':'Currently only contains basic party-building documents. Needs continuous expansion.',
+      'github-link':'GitHub Source',
+      'back-link':'← Back to Home',
+      'meta-desc':'GLM-4 Based Party Building Q&A System — LoRA Fine-tuning + RAG + Full-Stack Graduation Project Details',
+      'page-title':'GLM-4 Party Building Q&A System · Project Details',
+      'lang-btn':'中'
+    }
+  };
+
+  function setLang(lang){
+    const t=LANG[lang];
+    if(!t) return;
+    // data-i18n: textContent
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+      const key=el.getAttribute('data-i18n');
+      if(t[key]!==undefined) el.textContent=t[key];
+    });
+    // data-i18n-html: innerHTML
+    document.querySelectorAll('[data-i18n-html]').forEach(el=>{
+      const key=el.getAttribute('data-i18n-html');
+      if(t[key]!==undefined) el.innerHTML=t[key];
+    });
+    // meta tags
+    document.querySelectorAll('meta[data-i18n]').forEach(el=>{
+      const key=el.getAttribute('data-i18n');
+      if(t[key]!==undefined) el.setAttribute('content',t[key]);
+    });
+    // title
+    if(t['page-title']!==undefined) document.title=t['page-title'];
+    // lang attr
+    document.documentElement.lang=lang==='zh'?'zh-CN':'en';
+    // toggle button
+    document.getElementById('langToggle').textContent=t['lang-btn'];
+    localStorage.setItem('lang',lang);
+  }
+
+  const langToggle=document.getElementById('langToggle');
+  const savedLang=localStorage.getItem('lang');
+  const browserLang=navigator.language.startsWith('zh')?'zh':'en';
+  const currentLang=savedLang||browserLang;
+
+  if(currentLang!=='zh') setLang('en');
+
+  langToggle.addEventListener('click',()=>{
+    const next=document.documentElement.lang.startsWith('zh')?'en':'zh';
+    setLang(next);
+  });
+
+  // ── scroll reveal ──
   const observer=new IntersectionObserver((entries)=>{
     entries.forEach(e=>{
       if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)'}
